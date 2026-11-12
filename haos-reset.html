@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0e1015"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'self'; connect-src https://pgkjpybqnazceaknflnu.supabase.co; script-src 'sha256-5TfxaiUFeaHdVpyXpplewkXfToIMCQjz4KXObConlcI= '; style-src 'unsafe-inline'; img-src 'none'; frame-ancestors 'none'">
+<title>Сброс пароля • ХАОС</title><style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;padding:env(safe-area-inset-top) 20px env(safe-area-inset-bottom);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0e1015;color:#f8f7fb;min-height:100dvh;display:flex;align-items:center;justify-content:center}main{width:min(100%,470px);padding:34px 0 48px}a{color:#ccb4ff}small{color:#aba8b7}.logo{font-size:12px;letter-spacing:5px;font-weight:900;color:#cbb7ff;margin-bottom:18px}.hero{font-size:42px;font-weight:850;line-height:1.05;letter-spacing:-1.3px;margin:0 0 14px}.intro{line-height:1.5;color:#b7b3c4;font-size:15px;margin:0 0 26px}.box{border-radius:23px;border:1px solid #534364;background:#191b24;padding:25px 22px;box-shadow:0 20px 50px #0002}h2{font-size:21px;margin:0 0 12px}label{display:block;font-weight:650;font-size:14px;margin:18px 0 9px}input{width:100%;font:inherit;font-size:16px;min-height:52px;border:1px solid #4a4657;border-radius:13px;background:#0f1118;padding:13px 14px;color:#fff;outline:none}input:focus{border-color:#ccb7ff;box-shadow:0 0 0 2px #cbb7ff42}button{width:100%;font:inherit;font-size:16px;font-weight:780;background:#c6b0fb;color:#191124;border:0;border-radius:15px;padding:17px 12px;cursor:pointer;margin-top:20px}button:disabled{opacity:.5}.tip{font-size:13px;color:#aca9bc;line-height:1.6;margin:18px 0 0}.message{font-size:14px;line-height:1.55;border-radius:12px;padding:14px;margin:20px 0;background:#292038;color:#d9c6ff;overflow-wrap:anywhere}.error{background:#381e2b;color:#ffd0de}.footer{color:#8d899d;font-size:13px;line-height:1.6;margin-top:23px}.back{display:inline-block;margin-top:18px}
+</style></head><body><main><div class="logo">Х А О С.</div><h1 class="hero">Вернём доступ.</h1><p id="resetInfo" class="intro">Восстановление пароля облачного аккаунта. Локальный пароль сейфа не изменится.</p><div class="box"><h2>🔐 Личный аккаунт</h2><form id="emailForm"><label for="email">Почта аккаунта ХАОС</label><input id="email" type="email" placeholder="name@example.com" autocomplete="email" autocapitalize="off" required><button type="submit">Отправить письмо для сброса</button><p class="tip">Письмо придёт от Supabase. Не передавай ссылку никому, включая меня.</p></form><form id="newPasswordForm" hidden><label for="newPassword">Новый пароль</label><input id="newPassword" type="password" minlength="12" autocomplete="new-password" required placeholder="Не менее 12 символов"><label for="confirmPassword">Повтори пароль</label><input id="confirmPassword" type="password" minlength="12" autocomplete="new-password" required><button type="submit">Сохранить новый пароль</button><p class="tip">Это пароль облачного аккаунта, не пароль от зашифрованных записей.</p></form><p id="message" class="message" role="status" aria-live="polite" hidden></p><a id="signin" class="back" href="./haos-beta.html" hidden>Вернуться в ХАОС Cloud Beta</a></div><p class="footer">Твой пароль не отправляется на GitHub. Запрос поступает напрямую в твой Supabase. Никакой подписки, только немного возни.</p></main><script>(() => {
+  'use strict';
+  const API = 'https://pgkjpybqnazceaknflnu.supabase.co';
+  const PUBLIC_KEY = 'sb_publishable_eHy3AW5538dMzLZXVS_EhA_LNYuuzGs';
+  const RESET_URL = 'https://7hbfj7pn24-del.github.io/haos-app/haos-reset.html';
+  const $ = selector => document.querySelector(selector);
+  const emailForm = $('#emailForm');
+  const newPasswordForm = $('#newPasswordForm');
+  const msg = $('#message');
+  const resetInfo = $('#resetInfo');
+  const signinLink = $('#signin');
+  let accessToken = null;
+  let refreshToken = null;
+  let tokenExpiresAt = 0;
+
+  function status(message, error = false) {
+    msg.textContent = message;
+    msg.className = 'message ' + (error ? 'error' : 'success');
+    msg.hidden = false;
+  }
+  function setBusy(form, busy) {
+    form.querySelectorAll('button,input').forEach(el => el.disabled = busy);
+  }
+  function showPasswordForm() {
+    emailForm.hidden = true;
+    newPasswordForm.hidden = false;
+    resetInfo.textContent = 'Ссылка подтверждена. Придумай новый пароль от облачного аккаунта ХАОС.';
+    $('#newPassword').focus();
+  }
+  async function request(path, {method='GET', data=null, bearer=null}={}) {
+    const headers = {'apikey': PUBLIC_KEY};
+    if (data !== null) headers['Content-Type'] = 'application/json';
+    if (bearer) headers.Authorization = `Bearer ${bearer}`;
+    const response = await fetch(API + path, {method, headers, body:data !== null ? JSON.stringify(data):undefined, cache:'no-store', referrerPolicy:'no-referrer'});
+    const json = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(json.msg || json.error_description || json.message || json.error || `Ошибка (${response.status})`);
+    return json;
+  }
+  function consumeRecoveryFragment() {
+    const hash = new URLSearchParams(location.hash.replace(/^#/,''));
+    const query = new URLSearchParams(location.search);
+    // Supabase redirects with an ephemeral user access token in the fragment in the implicit flow.
+    if (hash.has('error') || hash.has('error_description')) {
+      status(hash.get('error_description') || hash.get('error') || 'Ссылка недействительна.', true);
+    }
+    const t = hash.get('access_token');
+    const rt = hash.get('refresh_token');
+    const kind = hash.get('type');
+    // Scrub confidential tokens from the address bar as early as possible.
+    if (location.hash || location.search) history.replaceState(null, '', location.pathname);
+    if (query.has('code')) {
+      status('Нужна ссылка восстановления стандартного типа. Отправь новое письмо через эту страницу.', true);
+      return;
+    }
+    if (t && kind === 'recovery') {
+      accessToken = t;
+      refreshToken = rt;
+      tokenExpiresAt = Date.now() + (Number(hash.get('expires_in')) || 3600)*1000;
+      showPasswordForm();
+    } else if (t) {
+      status('Эта ссылка не для сброса пароля. Запроси письмо восстановления ниже.', true);
+    }
+  }
+  emailForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    const email = $('#email').value.trim();
+    if (!email) return;
+    setBusy(emailForm,true); msg.hidden=true;
+    try {
+      await request('/auth/v1/recover?redirect_to=' + encodeURIComponent(RESET_URL), {method:'POST', data:{email}});
+      status('Письмо отправлено, если такая почта зарегистрирована. Проверь входящие и «Спам». Открой ссылку из письма на этом iPhone.');
+    } catch (error) {
+      status('Не удалось отправить письмо: ' + error.message + '. Не запрашивай его слишком часто: у Supabase есть лимиты.',true);
+    } finally {setBusy(emailForm,false)}
+  });
+  newPasswordForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    const pw=$('#newPassword').value, confirm=$('#confirmPassword').value;
+    if (pw.length < 12) return status('Нужно минимум 12 символов.',true);
+    if (pw!==confirm) return status('Пароли не совпадают.',true);
+    if (!accessToken) return status('Ссылка восстановления не найдена. Запроси новую.',true);
+    setBusy(newPasswordForm,true); msg.hidden=true;
+    try {
+      if(Date.now()>tokenExpiresAt-10000 && refreshToken){
+        const ref=await request('/auth/v1/token?grant_type=refresh_token',{method:'POST',data:{refresh_token:refreshToken}});
+        accessToken=ref.access_token;refreshToken=ref.refresh_token;
+      }
+      if(!accessToken) throw new Error('Ссылка устарела, запроси новую');
+      await request('/auth/v1/user',{method:'PUT',data:{password:pw},bearer:accessToken});
+      $('#newPassword').value = ''; $('#confirmPassword').value='';
+      newPasswordForm.hidden=true;
+      resetInfo.textContent='Пароль обновлён. Можешь войти в ХАОС Cloud Beta.';
+      status('✅ Пароль облачного аккаунта изменён! Сохрани его в «Пароли» на iPhone.');
+      signinLink.hidden=false;
+      accessToken=null;refreshToken=null;
+    }catch(error){status('Не получилось изменить пароль: '+error.message,true)}
+    finally{setBusy(newPasswordForm,false)}
+  });
+  consumeRecoveryFragment();
+})();</script></body></html>
