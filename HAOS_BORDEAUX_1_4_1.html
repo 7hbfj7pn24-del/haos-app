@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a080a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ХАОС">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="description" content="Личный ХАОС.">
+  <title>ХАОС · BORDEAUX</title>
+<style>
+:root{color-scheme:dark;--bg:#0e1015;--panel:#181b23;--panel2:#1d2029;--line:#2c303b;--text:#f7f5fa;--muted:#999bac;--dim:#6e7181;--accent:#c7b3ff;--accentdim:#352c4b;--pink:#e6a3c1;--green:#9ad9b0;--radius:21px;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;color:var(--text);background:var(--bg);min-height:100dvh}button,input,select,textarea{font:inherit}button{cursor:pointer}input,select,textarea{outline:none}::selection{background:var(--accent);color:#17131f}.hidden{display:none!important}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}.ambient{position:fixed;border-radius:50%;pointer-events:none;filter:blur(95px);opacity:.13;z-index:0}.ambient-one{width:330px;height:330px;background:#6b5598;top:-140px;right:-170px}.ambient-two{width:250px;height:250px;background:#51466f;top:40%;left:-220px;opacity:.08}.app-shell{position:relative;z-index:1;width:min(100%,720px);margin:auto;min-height:100dvh;padding:0 21px calc(112px + env(safe-area-inset-bottom))}.topbar{display:flex;align-items:center;justify-content:space-between;padding:calc(22px + env(safe-area-inset-top)) 0 19px;gap:12px}.brand-wrap{display:flex;align-items:center;gap:11px}.logo-mark{display:grid;place-items:center;width:43px;height:43px;font-size:31px;line-height:1;border-radius:14px;background:#272331;color:var(--accent);font-weight:400}.brand{font-size:18px;font-weight:900;letter-spacing:.09em;line-height:1.15}.brand-dot{color:var(--accent)}.brand-caption{font-size:10px;letter-spacing:.055em;color:var(--muted);margin-top:3px}.top-actions{display:flex;gap:10px;align-items:center}.icon-button{width:41px;height:41px;border-radius:14px;background:var(--panel);border:1px solid var(--line);color:var(--text);display:grid;place-items:center}.icon-button svg{width:21px;height:21px}.local-badge{display:inline-flex;gap:6px;align-items:center;color:#b6bac3;font-size:11px;background:#1b1e26;border:1px solid #2e3338;padding:9px 10px;border-radius:30px}.status-light{height:6px;width:6px;border-radius:50%;background:#9edbb5;box-shadow:0 0 8px #80c4a7}.search-panel{position:relative;margin:3px 0 18px}.search-panel input{width:100%;height:49px;padding:0 43px 0 17px;color:var(--text);background:var(--panel);border:1px solid #514365;border-radius:16px}.clear-search{position:absolute;right:9px;top:8px;width:33px;height:33px;background:transparent;border:0;color:var(--muted);font-size:24px}.main-content{animation:rise .2s ease both}@keyframes rise{from{transform:translateY(5px);opacity:.75}to{transform:translateY(0);opacity:1}}.eyebrow{font-size:11px;letter-spacing:.15em;font-weight:750;color:var(--accent);text-transform:uppercase;margin:17px 0 7px}.page-title{font-weight:780;font-size:clamp(30px,6.6vw,41px);letter-spacing:-.06em;line-height:1.08;margin:0}.page-subtitle{color:var(--muted);font-size:14px;line-height:1.5;margin:12px 0 24px}.hero{padding:24px 23px 22px;background:linear-gradient(120deg,#262138 0%,#201e2a 50%,#161923 100%);border:1px solid #463858;border-radius:25px;position:relative;overflow:hidden;margin:18px 0 23px}.hero:after{content:'✳';position:absolute;right:10px;top:-34px;color:#b69cec13;font-size:190px;line-height:1;pointer-events:none}.hero .eyebrow{margin-top:0}.hero h1{font-size:clamp(28px,7vw,44px);letter-spacing:-.06em;margin:11px 0 9px;line-height:1.06;position:relative;z-index:1}.hero p{font-size:14px;color:#c1bbd0;line-height:1.45;margin:0 0 18px;position:relative;z-index:1}.primary-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:12px 17px;background:var(--accent);color:#20152f;border:0;border-radius:13px;font-weight:800;font-size:13px;position:relative;z-index:1}.soft-button{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 14px;background:#272835;border:1px solid #383745;color:#e8e3ef;border-radius:13px;font-weight:680;font-size:13px;min-height:42px}.ghost-button{background:transparent;border:0;color:var(--accent);font-size:13px;font-weight:700;min-height:38px}.section-header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:24px 0 13px}.section-header h2{margin:0;font-size:17px;letter-spacing:-.02em}.stat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 19px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:17px 14px}.stat-number{font-size:28px;line-height:1;font-weight:750;letter-spacing:-.06em}.stat-number.purple{color:var(--accent)}.stat-number.pink{color:var(--pink)}.stat-number.green{color:var(--green)}.stat-caption{font-size:11px;color:var(--muted);margin-top:7px}.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px 17px;margin:9px 0}.card.card-clickable{cursor:pointer}.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:11px}.card-title{margin:0;font-size:15px;font-weight:740;line-height:1.36;overflow-wrap:anywhere}.card-body{font-size:13px;line-height:1.52;white-space:pre-wrap;color:#bab9c6;margin:9px 0 0;overflow-wrap:anywhere}.meta{font-size:11px;color:var(--dim);margin-top:12px}.pill{display:inline-flex;align-items:center;padding:5px 9px;border-radius:10px;background:#292433;color:#d8c9f2;font-size:11px;font-weight:600;white-space:nowrap}.pill.green{background:#1f3229;color:var(--green)}.pill.pink{background:#372732;color:var(--pink)}.pill.amber{background:#3b3127;color:#efc89b}.task-row{display:flex;align-items:flex-start;gap:12px}.task-checkbox{display:grid;place-items:center;flex:0 0 25px;height:25px;border:1.5px solid #76708b;border-radius:8px;background:transparent;color:var(--accent);margin-top:1px;font-size:16px;font-weight:700}.task-checkbox.checked{border-color:#8dd7af;background:#263d32;color:#8dd7af}.task-text{flex:1;min-width:0;cursor:pointer}.task-text.done .card-title{text-decoration:line-through;color:#8a8996}.task-details{color:var(--muted);font-size:12px;line-height:1.4;margin-top:4px;white-space:pre-wrap;overflow-wrap:anywhere}.task-trailing{display:flex;gap:5px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.empty{border:1px dashed #484554;border-radius:21px;text-align:center;padding:26px 18px;color:var(--muted);background:#191a225f}.empty-symbol{font-size:31px;color:var(--accent);margin:0 0 7px}.empty-title{font-size:15px;font-weight:700;color:var(--text)}.empty p{margin:7px auto 12px;font-size:12px;line-height:1.5;max-width:275px}.chip-row{display:flex;gap:8px;overflow:auto;scrollbar-width:none;margin:19px -2px 17px;padding:0 2px 2px}.chip-row::-webkit-scrollbar{display:none}.chip{flex:none;background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:10px 15px;color:var(--muted);font-weight:650;font-size:12px}.chip.active{background:var(--accentdim);border-color:#6a568e;color:#ebe1ff}.top-line{display:flex;justify-content:space-between;align-items:center;gap:10px}.count-info{color:var(--muted);font-size:12px}.entry-mark{font-size:17px;margin-right:7px}.more-item{display:flex;align-items:center;gap:12px;padding:17px 15px;border:1px solid var(--line);border-radius:17px;background:var(--panel);width:100%;color:var(--text);text-align:left;margin-bottom:10px}.more-icon{height:41px;width:41px;border-radius:13px;background:var(--accentdim);display:grid;place-items:center;color:var(--accent);font-size:21px}.more-info{flex:1}.more-info strong{display:block;font-size:14px;margin-bottom:4px}.more-info small{display:block;color:var(--muted);font-size:11px;line-height:1.3}.chevron{color:#7e7f8c;font-size:23px}.info-box{padding:17px 16px;border:1px solid #4a405c;border-radius:17px;background:#252034;font-size:12px;color:#d4c9e4;line-height:1.6;margin:21px 0}.bottom-nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,720px);display:flex;align-items:center;justify-content:space-around;gap:1px;background:#171920ed;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-top:1px solid #32303a;padding:11px 12px calc(11px + env(safe-area-inset-bottom));min-height:76px}.nav-link{min-width:57px;display:flex;align-items:center;flex-direction:column;gap:3px;padding:4px 5px 1px;background:transparent;border:0;color:#888895;font-size:10px;font-weight:650}.nav-link.active{color:var(--accent)}.nav-symbol{font-size:24px;line-height:26px}.nav-add{background:var(--accent);color:#241a32;border:0;min-height:49px;min-width:49px;border-radius:17px;margin:-16px 2px 0;box-shadow:0 6px 30px #b8a0ee36}.nav-add span{font-size:31px;line-height:1;font-weight:350}.modal-backdrop{position:fixed;z-index:90;inset:0;background:#05050bba;display:flex;align-items:flex-end;justify-content:center}.sheet{background:#1b1d26;border:1px solid #413b4b;border-bottom:0;border-radius:25px 25px 0 0;width:min(100%,720px);max-height:94dvh;overflow:auto;padding:10px 23px calc(23px + env(safe-area-inset-bottom));box-shadow:0 -10px 60px #08060c8c}.sheet-handle{height:5px;width:42px;background:#55505d;border-radius:9px;margin:0 auto 18px}.sheet-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:21px}.sheet-title{font-size:23px;font-weight:800;letter-spacing:-.04em;margin:0}.close-button{width:37px;height:37px;background:#292a34;border:1px solid #393945;border-radius:12px;color:#bbb6c7;font-size:24px}.field{display:block;margin:0 0 16px}.field-label{display:block;color:#c7c3d3;font-size:12px;font-weight:650;margin:0 0 8px}.field input,.field textarea,.field select{width:100%;min-height:49px;background:#111319;border:1px solid #353642;border-radius:13px;padding:12px 13px;color:var(--text);font-size:15px}.field textarea{min-height:120px;resize:vertical;line-height:1.48}.field input:focus,.field textarea:focus,.field select:focus{border-color:#8b75b2}.field input::placeholder,.field textarea::placeholder{color:#70717d}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-actions{display:flex;justify-content:space-between;gap:10px;margin-top:8px}.danger-button{background:transparent;border:1px solid #6b3946;color:#e7a5b3;border-radius:12px;padding:10px 12px;font-weight:650}.choose-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;padding-bottom:10px}.choose-card{border:1px solid #40384d;background:#25232f;color:var(--text);border-radius:18px;padding:17px 15px;text-align:left;min-height:118px}.choose-icon{display:block;font-size:27px;margin-bottom:10px;color:var(--accent)}.choose-card strong{font-size:14px}.choose-card small{display:block;font-size:11px;margin-top:5px;color:var(--muted);line-height:1.4}.toast{position:fixed;z-index:130;bottom:calc(101px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);background:#e5d9ff;color:#20172d;border-radius:13px;font-size:13px;font-weight:700;padding:11px 16px;box-shadow:0 13px 25px #0007;max-width:calc(100% - 36px);opacity:0;pointer-events:none;transition:transform .2s,opacity .2s;white-space:normal}.toast.visible{opacity:1;transform:translateX(-50%) translateY(0)}.project-dot{height:14px;width:14px;border-radius:5px;background:var(--accent);display:inline-block;flex:none}.project-line{display:flex;align-items:center;gap:10px}.project-label{color:var(--muted);font-size:12px}.inline-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.section-gap{height:16px}.footer-note{text-align:center;font-size:11px;color:var(--dim);line-height:1.55;margin:26px 0}.mini-link{color:var(--accent);font-weight:700;border:0;background:transparent;padding:0}.heading-inline{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}.day-date{font-size:12px;color:var(--muted);margin-top:8px}
+@media(min-width:650px){.app-shell{padding-left:36px;padding-right:36px}.bottom-nav{border-radius:20px 20px 0 0}.sheet{border-radius:25px 25px 0 0}.hero{padding:30px}.stat{padding:22px}}@media(max-width:365px){.local-badge{font-size:0;gap:0;padding:10px}.status-light{width:7px;height:7px}.stat{padding:14px 10px}.stat-caption{font-size:10px}.sheet{padding-left:15px;padding-right:15px}.nav-link{min-width:48px}}
+
+
+/* ХАОС: шифрованный личный сейф */
+body.is-locked .app-shell,body.is-locked #modalRoot,body.is-locked #toast{display:none!important}
+.auth-screen{position:fixed;inset:0;z-index:200;background:#0e1015;display:flex;align-items:center;justify-content:center;padding:28px 23px calc(30px + env(safe-area-inset-bottom));overflow:auto}
+.auth-screen.hidden{display:none}
+.auth-card{width:100%;max-width:390px;padding:28px 24px;background:linear-gradient(145deg,#252038,#171923);border:1px solid #514269;border-radius:25px;box-shadow:0 25px 60px #08060b80}
+.auth-icon{display:grid;place-items:center;width:54px;height:54px;border-radius:18px;background:#342943;color:#d4befd;font-size:28px;margin-bottom:22px}
+.auth-title{font-size:30px;letter-spacing:-.045em;line-height:1.1;margin:0 0 10px}
+.auth-copy{font-size:14px;line-height:1.55;color:#c6bfd1;margin:0 0 23px}
+.auth-field{display:block;margin:0 0 15px}
+.auth-field span{display:block;font-size:12px;font-weight:700;color:#d6cede;margin:0 0 8px}
+.auth-field input{width:100%;min-height:51px;background:#101118;border:1px solid #514663;border-radius:14px;color:#fff;padding:12px 15px;font-size:17px;outline:none}
+.auth-field input:focus{border-color:#bda5f5}
+.auth-submit{width:100%;margin-top:5px;font-size:15px}
+.auth-error{min-height:18px;margin:12px 0 0;color:#f0a7b4;font-size:12px;line-height:1.5}
+.auth-foot{margin:18px 0 0;color:#aaa5b9;font-size:11px;line-height:1.6}
+.hero:after{content:''!important}
+
+/* ХАОС 1.2: фотоссылки, миниатюры, безопасное резервирование */
+.photo-picker{margin:2px 0 19px;border:1px solid #474153;border-radius:16px;padding:14px;background:#20212b}
+.photo-picker-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:7px;color:#eee4fb;font-size:13px;font-weight:750}
+.photo-picker-help{font-size:11px;color:#aaa6bb;line-height:1.5;margin:0 0 12px}
+.photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.photo-tile{position:relative;min-height:89px;aspect-ratio:1;background:#12131c;border:1px solid #4c435b;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.photo-tile img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-tile .photo-remove{position:absolute;right:5px;top:5px;width:28px;height:28px;border-radius:50%;border:0;background:#17151bdf;color:#fff;font-size:20px;line-height:1;z-index:3}
+.photo-tile.add-tile{border-style:dashed;color:#ccbcf7;font-size:12px;flex-direction:column;gap:5px}
+.photo-count{color:#aaa6bb;font-size:11px;margin-top:10px}
+.entry-photos{display:flex;gap:7px;overflow:hidden;margin:11px 0 1px}
+.entry-photo{width:72px;height:72px;object-fit:cover;border:1px solid #514a61;border-radius:10px;background:#24232d}.entry-photo{cursor:zoom-in}.photo-viewer{width:100%;max-height:65dvh;object-fit:contain;border-radius:13px;background:#101017}
+.entry-photo-more{display:flex;align-items:center;justify-content:center;color:#c9bbdf;border:1px solid #514a61;border-radius:10px;padding:10px;font-size:12px}
+.backup-status{display:inline-block;border-radius:12px;padding:8px 11px;margin:9px 0;background:#2a2436;color:#d9c6ff;font-size:12px}
+.backup-warning{border:1px solid #71603d;background:#342d23;color:#f0daab;border-radius:16px;padding:14px 15px;margin:0 0 18px;font-size:12px;line-height:1.6}
+.backup-warning button{font-weight:800;background:transparent;color:#fff0bd;border:0;padding:5px 0;margin-top:5px}
+
+.cloud-card{border-color:#554965}
+.cloud-status{font-size:12px;color:#cab5ff;background:#282233;padding:10px 12px;border-radius:10px;line-height:1.5;margin:12px 0}
+.cloud-fields{display:grid;gap:10px;margin:15px 0}
+.cloud-fields input{background:#101218;border:1px solid #454455;border-radius:12px;min-height:48px;padding:12px;color:#fff;font-size:16px;width:100%;box-sizing:border-box}
+.cloud-fields input:focus{outline:2px solid #b69fe3}
+.cloud-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:13px}
+.cloud-actions button{flex:1 1 auto;min-width:140px}
+
+/*
+  ХАОС / BORDEAUX
+  Visual-only theme for v1.4.1. App logic, data keys, storage,
+  encryption, cloud sync and backups are intentionally untouched.
+*/
+:root {
+  color-scheme: dark;
+  --bg: #0a080a;
+  --panel: #171216;
+  --panel2: #21171d;
+  --line: #39252d;
+  --text: #fff9f8;
+  --muted: #bdadb4;
+  --dim: #93828a;
+  --accent: #e17b94;
+  --accentdim: #44202c;
+  --pink: #ed8ca5;
+  --green: #f0c9d2;
+  --radius: 21px;
+  --wine: #8c2943;
+  --wine-deep: #53172a;
+  --wine-border: #754052;
+  --ivory: #fff9f8;
+  --wine-surface: #25151d;
+}
+html, body { background-color: var(--bg); }
+body {
+  color: var(--text);
+  background-image: radial-gradient(ellipse 85% 500px at 95% -115px, rgba(103, 23, 46, .24), transparent 76%),
+                    radial-gradient(ellipse 380px 420px at -195px 70%, rgba(77, 18, 37, .11), transparent 84%);
+  background-attachment: fixed;
+}
+::selection { background: #8a2b46; color: white; }
+.ambient { opacity: .14; filter: blur(80px); }
+.ambient-one { background: #6b1730; right: -185px; top: -100px; }
+.ambient-two { background: #4a1226; left: -205px; opacity: .085; }
+
+/* Masthead: matte oxblood enamel rather than the original emoji tile. */
+.topbar { padding-bottom: 24px; }
+.brand-wrap { gap: 13px; }
+.logo-mark {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: linear-gradient(150deg, #a42e4c 0%, #671c33 62%, #43101f 100%);
+  border: 1px solid #a24f67;
+  box-shadow: inset 0 1px 0 #edbac333, 0 9px 23px #09050788;
+  font-size: 0;
+  overflow: hidden;
+}
+.logo-mark::before {
+  content: '✳︎';
+  font: 500 31px/1 Georgia, serif;
+  color: #fff6f4;
+  text-shadow: 0 0 0 transparent;
+}
+.brand { font-weight: 850; letter-spacing: .115em; font-size: 19px; color: #fffaf9; }
+.brand-dot { color: #dc6986; }
+.brand-caption { color: #b6a3ac; letter-spacing: .065em; }
+.icon-button {
+  background: #1a1217;
+  color: #fff5f5;
+  border-color: #422b34;
+  box-shadow: inset 0 1px 0 #ffffff07;
+}
+.local-badge { background: #181115; border-color: #47303b; color: #e2d4d8; }
+.status-light { background: #f1d3db; box-shadow: 0 0 0 3px #8c29432b, 0 0 10px #d8799350; }
+.search-panel input { background: #151015; border: 1px solid #724155; color: #fff; }
+.search-panel input:focus { box-shadow: 0 0 0 3px #b7436338; border-color: #c3627e; }
+
+/* Type and page rhythm. */
+.eyebrow { color: #e49aab; font-size: 10px; letter-spacing: .22em; }
+.page-title { color: var(--text); font-weight: 800; letter-spacing: -.058em; }
+.page-subtitle { color: #c2afb6; }
+.count-info { color: #a8959d; }
+.section-header { margin-top: 28px; }
+.section-header h2 { font-weight: 750; color: #fff7f7; }
+.section-header:has(h2) { border-bottom: 1px solid #39252d; padding-bottom: 8px; }
+
+/* Signature front-page card. */
+.hero {
+  background:
+    radial-gradient(ellipse 280px 230px at 115% -10%, #b6426061, transparent 83%),
+    linear-gradient(132deg, #4f142b 0%, #2f101d 48%, #1b1016 100%);
+  border: 1px solid #91435a;
+  border-radius: 23px;
+  box-shadow: inset 0 1px 0 #ffffff1a, 0 18px 50px #05030555;
+  padding: 25px 24px 24px;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 24px;
+  height: 2px;
+  width: 74px;
+  background: #f2b4c2;
+  box-shadow: 0 0 12px #cd657c50;
+}
+.hero:after {
+  content: '✳︎' !important;
+  position: absolute;
+  right: -4px;
+  top: -18px;
+  font: 150px/1 Georgia, serif;
+  color: #f9dce60f;
+  pointer-events: none;
+  transform: rotate(9deg);
+}
+.hero h1 { color: #fff9f7; font-weight: 830; }
+.hero p { color: #e0c5cd; }
+.hero .eyebrow { color: #ffc6d2; }
+.primary-button {
+  background: linear-gradient(140deg, #a72e4d 0%, #80213b 100%);
+  color: #fff9fa;
+  border: 1px solid #c05773;
+  border-radius: 13px;
+  box-shadow: inset 0 1px 0 #fff5f424, 0 6px 18px #14040b50;
+  font-weight: 750;
+}
+.primary-button:active { filter: brightness(1.13); transform: translateY(1px); }
+.soft-button {
+  background: #292027;
+  border-color: #44313a;
+  color: #f8edef;
+}
+.ghost-button { color: #f09bb0; }
+.ghost-button:active, .mini-link:active { color: #fff7f8; }
+
+/* Stats, records, filters. */
+.stat {
+  background: linear-gradient(160deg, #21171c, #151115 90%);
+  border-color: #39272f;
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.stat::before { content: ''; position: absolute; left: 14px; top: 0; width: 30px; height: 2px; background: #934058; }
+.stat-number { color: #fff8f7; font-weight: 780; }
+.stat-number.purple { color: #f2b1c0; }
+.stat-number.pink { color: #fff8f6; }
+.stat-number.green { color: #e48da4; }
+.stat-caption { color: #b4a1a9; }
+.card {
+  background: linear-gradient(156deg, #1d151a 0%, #171216 82%);
+  border-color: #39262f;
+  border-radius: 19px;
+  box-shadow: inset 0 1px 0 #ffffff04;
+}
+.card.card-clickable { transition: border-color .16s ease, background .16s ease; }
+.card.card-clickable:active { background: #26171f; border-color: #98566a; }
+.card-head .card-title { color: #fff8f7; }
+.card-title { color: #fff8f7; }
+.card-body { color: #ccbbc1; }
+.meta { color: #9b8991; }
+.entry-mark { color: #eda1b4; }
+.entry-photos { gap: 9px; }
+.entry-photo { border-color: #875263; background: #24171e; }
+.entry-photo-more { color: #f4ced7; border-color: #794458; }
+.pill {
+  background: #3c202b;
+  color: #f2c6d0;
+  border: 1px solid #5d3443;
+  font-weight: 700;
+}
+.pill.green { background: #272126; color: #f7e3e6; border-color: #53404a; }
+.pill.pink { background: #4b2333; color: #ffd4df; border-color: #814157; }
+.pill.amber { background: #3b2927; color: #f1c6b5; border-color: #6c4840; }
+.task-checkbox { border-color: #9f7785; color: #f4b5c4; }
+.task-checkbox.checked { border-color: #d8899e; background: #59283a; color: white; }
+.task-text.done .card-title { color: #96858c; }
+.task-details { color: #c3b2b9; }
+.empty { background: #191216bf; border-color: #65404c; }
+.empty-symbol { color: #e59bb1; }
+.chip { background: #171115; border-color: #44303a; color: #c9b7be; }
+.chip.active {
+  color: #fff9f8;
+  background: linear-gradient(140deg, #7c243d, #552032);
+  border-color: #ac536d;
+  box-shadow: inset 0 1px 0 #ffdee329;
+}
+.more-item { background: #1a1419; border-color: #3d2932; }
+.more-icon { background: #49202f; color: #ffbfce; }
+.chevron { color: #bb9da9; }
+.info-box { background: #281921; border-color: #6e3d4e; color: #e5cbd3; }
+.project-dot { background: #ab3b57; }
+.project-label, .footer-note { color: #aa929e; }
+.mini-link { color: #efa6b9; }
+
+/* Bottom bar: strong black silhouette, maroon active state, ivory +. */
+.bottom-nav {
+  background: #100c10f5;
+  border-top: 1px solid #57323e;
+  box-shadow: 0 -15px 34px #0a060b88;
+}
+.nav-link { color: #9b8b93; }
+.nav-link.active { color: #fff6f6; }
+.nav-link.active .nav-symbol { color: #e689a1; text-shadow: 0 0 15px #b8476540; }
+.nav-add {
+  background: #fff9f7;
+  color: #76213b;
+  border: 1px solid #fff;
+  border-radius: 17px;
+  box-shadow: 0 8px 28px #03020475, 0 0 0 4px #9b34471f;
+}
+.nav-add:active { background: #f9dfe4; }
+
+/* Editing, sheets, form elements and accessible focus treatment. */
+.modal-backdrop { background: #050305cb; }
+.sheet {
+  background: #1a1218;
+  border-color: #6b3b4b;
+  box-shadow: 0 -25px 65px #050305cc;
+}
+.sheet-handle { background: #825466; }
+.sheet-title { color: #fff9f8; }
+.close-button { background: #2b2028; border-color: #513542; color: #fff0f2; }
+.field-label { color: #ead5dc; }
+.field input, .field textarea, .field select {
+  background: #0d0b0e;
+  border-color: #51333e;
+  color: #fff9f8;
+}
+.field input:focus, .field textarea:focus, .field select:focus { border-color: #d0718a; box-shadow: 0 0 0 3px #a5436136; }
+.field input::placeholder, .field textarea::placeholder { color: #917b85; }
+.danger-button { border-color: #9b4257; color: #ffc1cf; background: #2b151e; }
+.choose-card { background: #241820; border-color: #624052; }
+.choose-icon { color: #ed92ac; }
+.toast { background: #fff8f6; color: #521728; box-shadow: 0 15px 30px #080307a3; }
+
+/* Password screen. */
+.auth-screen {
+  background: #0b080a;
+  background-image: radial-gradient(ellipse 75% 48% at 50% 17%, #45182a77, transparent);
+}
+.auth-card {
+  background: linear-gradient(155deg, #291823 0%, #181116 69%, #130e12 100%);
+  border-color: #815064;
+  box-shadow: 0 25px 75px #000000a8, inset 0 1px 0 #f9c7d015;
+}
+.auth-icon {
+  color: #fff7f6;
+  background: linear-gradient(145deg, #a33251, #54182d);
+  border: 1px solid #ba6079;
+  box-shadow: 0 9px 20px #09040666;
+}
+.auth-title { color: #fff9f8; }
+.auth-copy { color: #e0cbd2; }
+.auth-field span { color: #e7d0d7; }
+.auth-field input { background: #100b10; border-color: #684352; }
+.auth-field input:focus { border-color: #df88a2; box-shadow: 0 0 0 3px #a43c5a3d; }
+.auth-error { color: #ffb5c5; }
+.auth-foot { color: #bfa6b0; }
+
+/* Photo library, cloud, backups. */
+.photo-picker { background: #24171e; border-color: #714355; }
+.photo-picker-title { color: #fff7f6; }
+.photo-picker-help, .photo-count { color: #cab4bd; }
+.photo-tile { background: #150e13; border-color: #714052; }
+.photo-tile.add-tile { color: #ffd0dd; }
+.photo-tile .photo-remove { background: #290d19e6; color: white; }
+.photo-viewer { background: #0d0a0e; }
+.backup-status { background: #4a2535; color: #ffd6e1; }
+.backup-warning { background: #39252a; border-color: #865468; color: #ffe4df; }
+.backup-warning button { color: #fff4f2; }
+.cloud-card { border-color: #674050; }
+.cloud-status { background: #3b2130; color: #f1c4d2; border: 1px solid #62384b; }
+.cloud-fields input { background: #0d0b0d; color: white; border-color: #633d4b; }
+.cloud-fields input:focus { outline: 2px solid #c76582; outline-offset: 1px; }
+.cloud-actions button { flex: 1 1 auto; }
+
+button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible,
+[role='button']:focus-visible { outline: 2px solid #efabc1; outline-offset: 3px; }
+@media (hover:hover) {
+  .primary-button:hover { filter: brightness(1.12); }
+  .soft-button:hover, .icon-button:hover { border-color: #895062; }
+  .chip:not(.active):hover { background: #261820; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .main-content { animation: none; }
+  .card.card-clickable, .primary-button { transition: none; }
+}
+
+</style>
+</head>
+<body class="is-locked">
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-wrap" role="banner"><span class="logo-mark" aria-hidden="true">✳</span><div><div class="brand">ХАОС<span class="brand-dot">.</span></div><div class="brand-caption">всё своё, всё на месте</div></div></div>
+      <div class="top-actions"><button class="icon-button" id="searchToggle" title="Поиск" aria-label="Открыть поиск"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 5 5"/></svg></button><span class="local-badge" title="Без аккаунта, данные на этом устройстве"><span class="status-light"></span>локально</span></div>
+    </header>
+    <div id="searchPanel" class="search-panel hidden"><label for="globalSearch" class="sr-only">Искать во всех записях</label><input id="globalSearch" type="search" placeholder="Найти что угодно…" autocomplete="off"><button class="clear-search" id="clearSearch" aria-label="Закрыть поиск">×</button></div>
+    <main id="app" class="main-content" tabindex="-1" aria-live="polite"></main>
+    <nav class="bottom-nav" aria-label="Разделы приложения">
+      <button data-nav="today" class="nav-link active"><span class="nav-symbol">⌂</span><span>Сегодня</span></button>
+      <button data-nav="tasks" class="nav-link"><span class="nav-symbol">☑</span><span>План</span></button>
+      <button id="addQuick" class="nav-add" aria-label="Добавить запись или задачу"><span>+</span></button>
+      <button data-nav="entries" class="nav-link"><span class="nav-symbol">▤</span><span>Записи</span></button>
+      <button data-nav="more" class="nav-link"><span class="nav-symbol">◈</span><span>Ещё</span></button>
+    </nav>
+  </div>
+  <div id="modalRoot"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <input id="importFile" type="file" accept="application/json,.json,.haos" hidden>
+  <input id="mergeFile" type="file" accept="application/json,.json,.haos" hidden>
+
+<div id="authScreen" class="auth-screen" aria-label="Личный сейф ХАОС">
+  <div class="auth-card">
+    <div class="auth-icon" aria-hidden="true">♢</div>
+    <h1 id="authTitle" class="auth-title">Личный сейф</h1>
+    <p id="authCopy" class="auth-copy">Твои записи под паролем.</p>
+    <form id="authForm" autocomplete="off">
+      <label class="auth-field"><span>Пароль</span><input id="authPassword" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" required minlength="12" placeholder="Не меньше 12 символов"></label>
+      <label id="authRepeatLabel" class="auth-field hidden"><span>Повтори пароль</span><input id="authRepeat" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Ещё раз, для уверенности"></label>
+      <button id="authSubmit" type="submit" class="primary-button auth-submit">Открыть ХАОС</button>
+      <p id="authError" class="auth-error" role="alert" aria-live="polite"></p>
+    </form>
+    <p class="auth-foot">Пароль остаётся только у тебя. Мы не можем восстановить его за тебя. Сохраняй зашифрованные резервные копии.</p>
+  </div>
+</div>
+  <script>
+/* ХАОС v1.2.0. Личное шифрование, фото, резервные копии. Без аналитики и внешних библиотек. */
+(()=>{
+'use strict';
+const STORAGE_KEY='chaos-personal-v1';
+const VAULT_KEY='haos-encrypted-vault-v2';
+const BACKUP_STATUS_KEY='haos-last-backup-v3';
+const BACKUP_MODIFIED_KEY='haos-last-change-v3';
+const PHOTO_LIMIT=8;
+let photoDraft=null,photoDraftBusy=false;
+const photoURLCache=new Map();
+let photoDatabasePromise=null;
+const KDF_ITERATIONS=310000;
+const blank=()=>({version:1,tasks:[],entries:[],projects:[]});
+let data=blank();
+let activeKey=null, vaultSalt=null, persistQueue=Promise.resolve(), vaultBusy=false;
+let view='today',entryFilter='all',taskFilter='active',activeProjectId=null,query='',toastTimer;
+const $=sel=>document.querySelector(sel);
+const main=$('#app'),modal=$('#modalRoot');
+const moods=[['😌','Спокойно'],['🙂','Нормально'],['🥹','Трогательно'],['😤','Бесит'],['🫠','Хаос'],['💜','Хорошо']];
+const typeNames={journal:'Дневник',note:'Заметка',idea:'Идея'};
+const typeIcons={journal:'☾',note:'▤',idea:'✦'};
+const formatToday=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')};
+const readableDate=val=>{if(!val)return '';const d=new Date((/^\d{4}-\d{2}-\d{2}$/.test(val)?val+'T12:00:00':val));return Number.isFinite(d.getTime())?new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'short',year:'numeric'}).format(d):''};
+const readableMoment=val=>{if(!val)return '';const d=new Date(val);if(!Number.isFinite(d.getTime()))return '';const date=new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'short',year:'numeric'}).format(d);const hour=new Intl.DateTimeFormat('ru-RU',{hour:'2-digit',minute:'2-digit',hour12:false}).format(d);return `${date}, ${hour}`};
+const readableWeekday=()=>new Intl.DateTimeFormat('ru-RU',{weekday:'long',day:'numeric',month:'long'}).format(new Date());
+const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shorten=(s,n=135)=>{s=String(s||'').trim();return s.length>n?s.slice(0,n).trim()+'…':s};
+const uid=()=>typeof crypto!=='undefined'&&crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2);
+const time=()=>new Date().toISOString();
+function load(){try{const parsed=JSON.parse(localStorage.getItem(STORAGE_KEY));if(parsed&&Array.isArray(parsed.tasks)&&Array.isArray(parsed.entries)&&Array.isArray(parsed.projects)){return {version:1,tasks:parsed.tasks,entries:parsed.entries,projects:parsed.projects}}}catch(e){console.warn('Unable to load local storage',e)}return blank()}
+
+function toBase64(bytes){let s='';for(let i=0;i<bytes.length;i++)s+=String.fromCharCode(bytes[i]);return btoa(s)}
+function fromBase64(s){return Uint8Array.from(atob(s),c=>c.charCodeAt(0))}
+function validateData(raw){if(!raw||!Array.isArray(raw.tasks)||!Array.isArray(raw.entries)||!Array.isArray(raw.projects))throw new Error('Повреждённые данные');return {version:1,tasks:raw.tasks,entries:raw.entries,projects:raw.projects}}
+async function deriveKey(pass,salt,iterations=KDF_ITERATIONS){const material=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations,hash:'SHA-256'},material,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+async function encryptState(key,state,salt){const iv=crypto.getRandomValues(new Uint8Array(12));const cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(JSON.stringify(state)));return {version:2,kdf:'PBKDF2-SHA256',iterations:KDF_ITERATIONS,salt:toBase64(salt),iv:toBase64(iv),ciphertext:toBase64(new Uint8Array(cipher))}}
+async function decryptState(vault,pass){if(vault.version!==2||vault.kdf!=='PBKDF2-SHA256'||vault.iterations<100000||vault.iterations>2000000)throw new Error('Неизвестный формат сейфа');const salt=fromBase64(vault.salt);const key=await deriveKey(pass,salt,vault.iterations);const plaintext=await crypto.subtle.decrypt({name:'AES-GCM',iv:fromBase64(vault.iv)},key,fromBase64(vault.ciphertext));return {key,salt,data:validateData(JSON.parse(new TextDecoder().decode(plaintext)))}}
+function getVault(){try{const raw=localStorage.getItem(VAULT_KEY);return raw?JSON.parse(raw):null}catch(e){return {corrupted:true}}}
+function save(){if(!activeKey||!vaultSalt)return Promise.reject(new Error('Сейф закрыт'));const snapshot=JSON.parse(JSON.stringify(data));const key=activeKey,salt=vaultSalt;persistQueue=persistQueue.catch(()=>{}).then(async()=>{const encrypted=await encryptState(key,snapshot,salt);localStorage.setItem(VAULT_KEY,JSON.stringify(encrypted));markedAsChanged();cloudSchedule();return true}).catch(err=>{console.error('Save failed',err);notify('Не удалось сохранить! Сделай копию и проверь память телефона.');throw err});return persistQueue}
+function setAuthMode(mode){const create=mode==='create';$('#authTitle').textContent=create?'Создай свой пароль':'С возвращением в ХАОС';$('#authCopy').textContent=create?'Задай длинный личный пароль. Все записи будут зашифрованы на этом устройстве.':'Доступ к дневнику только после расшифровки записей.';$('#authRepeatLabel').classList.toggle('hidden',!create);$('#authRepeat').required=create;$('#authSubmit').textContent=create?'Создать защищённый ХАОС':'Разблокировать';$('#authPassword').setAttribute('minlength',create?'12':'1');$('#authPassword').value='';$('#authRepeat').value='';$('#authError').textContent='';document.body.classList.add('is-locked');$('#authScreen').classList.remove('hidden');}
+async function initializeVault(){if(!globalThis.crypto?.subtle){setAuthMode('unlock');$('#authCopy').textContent='В этом браузере недоступно шифрование. Открой ХАОС по HTTPS в Safari.';$('#authSubmit').disabled=true;return;}const vault=getVault();setAuthMode(vault?'unlock':'create');if(vault?.corrupted)$('#authError').textContent='Хранилище повреждено. Не удаляй данные. Сделай копию перед восстановлением.'}
+async function unlockWithPass(pass){const vault=getVault();if(vault){const opened=await decryptState(vault,pass);activeKey=opened.key;vaultSalt=opened.salt;data=opened.data;}else{vaultSalt=crypto.getRandomValues(new Uint8Array(16));activeKey=await deriveKey(pass,vaultSalt);data=load();await save();localStorage.removeItem(STORAGE_KEY);}view='today';query='';$('#globalSearch').value='';$('#searchPanel').classList.add('hidden');$('#authScreen').classList.add('hidden');document.body.classList.remove('is-locked');render();if(cloudEnabled)cloudSchedule();if(navigator.storage?.persist)navigator.storage.persist().catch(()=>{});}
+async function lockVault(){if(document.body.classList.contains('is-locked')||vaultBusy)return;vaultBusy=true;try{await persistQueue}catch(e){};activeKey=null;vaultSalt=null;data=blank();resetPhotoDraft();clearPhotoURLs();main.innerHTML='';modal.innerHTML='';setAuthMode('unlock');vaultBusy=false;}
+$('#authForm').addEventListener('submit',async event=>{event.preventDefault();if(vaultBusy)return;const pass=$('#authPassword').value;const isCreate=!getVault();$('#authError').textContent='';if(isCreate&&(pass.length<12||pass!==$('#authRepeat').value)){ $('#authError').textContent=pass.length<12?'Нужно хотя бы 12 символов. Лучше длинную фразу.':'Пароли не совпадают.';return;}vaultBusy=true;$('#authSubmit').disabled=true;try{await unlockWithPass(pass);}catch(e){activeKey=null;vaultSalt=null;data=blank();$('#authError').textContent=getVault()?.corrupted?'Повреждены данные сейфа.':'Не получилось открыть: неверный пароль или повреждённая копия.';console.warn('Unable to unlock local vault',e)}finally{vaultBusy=false;$('#authSubmit').disabled=false;$('#authPassword').value='';$('#authRepeat').value=''}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)lockVault()});
+
+
+function openPhotoDB(){
+ if(!('indexedDB' in window))return Promise.reject(new Error('Нет доступа к IndexedDB на этом устройстве'));
+ if(!photoDatabasePromise){photoDatabasePromise=new Promise((resolve,reject)=>{
+   const request=indexedDB.open('haos-private-photos-v1',1);
+   request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains('photos'))request.result.createObjectStore('photos',{keyPath:'id'})};
+   request.onsuccess=()=>resolve(request.result);
+   request.onerror=()=>reject(request.error||new Error('Хранилище фотографий недоступно'));
+ }).catch(error=>{photoDatabasePromise=null;throw error})}
+ return photoDatabasePromise;
+}
+async function photoDBGet(id){const db=await openPhotoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('photos','readonly');const req=tx.objectStore('photos').get(id);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error);tx.onerror=()=>reject(tx.error)})}
+async function photoDBPut(item){const db=await openPhotoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('photos','readwrite');tx.objectStore('photos').put(item);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error||new Error('Ошибка сохранения фото'))})}
+async function photoDBDelete(id){const db=await openPhotoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('photos','readwrite');tx.objectStore('photos').delete(id);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)})}
+async function photoDBClear(){const db=await openPhotoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('photos','readwrite');tx.objectStore('photos').clear();tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)})}
+async function storePhotoWithKey(id,mime,bytes,key){
+ const iv=crypto.getRandomValues(new Uint8Array(12));
+ const ciphertext=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,bytes);
+ await photoDBPut({id,mime:'image/jpeg',iv:iv.buffer,ciphertext,version:1});
+}
+async function decryptPhotoWithKey(item,key){
+ if(!item||item.version!==1||!item.iv||!item.ciphertext)throw new Error('Не найдено зашифрованное фото');
+ return crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(item.iv)},key,item.ciphertext);
+}
+async function getPhotoURL(id){
+ if(!activeKey||!id)return '';
+ if(photoURLCache.has(id))return photoURLCache.get(id);
+ const item=await photoDBGet(id);if(!item)return '';
+ const buffer=await decryptPhotoWithKey(item,activeKey);
+ if(!activeKey)return '';
+ const url=URL.createObjectURL(new Blob([buffer],{type:'image/jpeg'}));photoURLCache.set(id,url);return url;
+}
+async function hydratePhotos(root=document){
+ const nodes=Array.from(root.querySelectorAll('img[data-photo-id]'));
+ const keyBefore=activeKey;
+ for(const node of nodes){
+   try{const url=await getPhotoURL(node.dataset.photoId);if(keyBefore===activeKey&&url&&node.isConnected)node.src=url}
+   catch(err){console.warn('Не удалось открыть фотографию',err);node.alt='Не удалось загрузить фото'}
+ }
+}
+function clearPhotoURLs(){for(const url of photoURLCache.values())URL.revokeObjectURL(url);photoURLCache.clear()}
+function resetPhotoDraft(){if(photoDraft){for(const item of photoDraft.added){URL.revokeObjectURL(item.previewURL)}}photoDraft=null;photoDraftBusy=false}
+function photoPreviews(photos,mode='entry'){
+ const list=Array.isArray(photos)?photos:[];
+ if(!list.length)return '';
+ return mode==='entry'?`<div class="entry-photos">${list.slice(0,4).map(p=>`<img class="entry-photo" data-photo-id="${escape(p.id)}" alt="Фото-референс">`).join('')}${list.length>4?`<span class="entry-photo-more">+${list.length-4}</span>`:''}</div>`:'';
+}
+function photoPickerMarkup(){
+ if(!photoDraft)return '';
+ const existing=photoDraft.existing.map(p=>`<div class="photo-tile"><img data-photo-id="${escape(p.id)}" alt="${escape(p.name||'Фото')}"><button type="button" class="photo-remove" data-action="remove-photo" data-photo-id="${escape(p.id)}" aria-label="Убрать фото">×</button></div>`);
+ const added=photoDraft.added.map(p=>`<div class="photo-tile"><img src="${escape(p.previewURL)}" alt="${escape(p.meta.name||'Новое фото')}"><button type="button" class="photo-remove" data-action="remove-photo" data-photo-id="${escape(p.meta.id)}" aria-label="Убрать фото">×</button></div>`);
+ const count=existing.length+added.length;
+ return `<div class="photo-picker"><div class="photo-picker-title"><span>📷 Фото и референсы</span><span>${count}/${PHOTO_LIMIT}</span></div><p class="photo-picker-help">Выбери фото из галереи. Оно останется внутри этой записи и будет зашифровано. Без внешних ссылок и дисков.</p><div class="photo-grid">${existing.join('')}${added.join('')}${count<PHOTO_LIMIT?`<button class="photo-tile add-tile" type="button" data-action="pick-photos"><span style="font-size:27px">＋</span><span>Добавить фото</span></button>`:''}</div><input id="photoFilePicker" type="file" accept="image/*" multiple hidden><div class="photo-count">${photoDraftBusy?'Обрабатываю фото…':'До 8 фотографий на одну запись, размер уменьшается для экономии памяти'}</div></div>`;
+}
+function updatePhotoPicker(){const node=modal.querySelector('#photoPickerSlot');if(node){node.innerHTML=photoPickerMarkup();hydratePhotos(node)}}
+async function optimizePhoto(file){
+ if(!file.type.startsWith('image/'))throw new Error('Можно добавить только фото');
+ if(file.size>28*1024*1024)throw new Error('Фото слишком большое (максимум 28 МБ)');
+ const url=URL.createObjectURL(file);let img;
+ try{img=await new Promise((resolve,reject)=>{const el=new Image();el.onload=()=>resolve(el);el.onerror=()=>reject(new Error('Формат фото не поддерживается'));el.src=url});
+   const scale=Math.min(1,1600/Math.max(img.naturalWidth,img.naturalHeight));
+   const width=Math.max(1,Math.round(img.naturalWidth*scale)),height=Math.max(1,Math.round(img.naturalHeight*scale));
+   const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+   const ctx=canvas.getContext('2d',{alpha:false});if(!ctx)throw new Error('Не удалось обработать фото');ctx.fillStyle='#fff';ctx.fillRect(0,0,width,height);ctx.drawImage(img,0,0,width,height);
+   const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('Не удалось сжать фото')),'image/jpeg',.8));
+   return {meta:{id:uid(),name:String(file.name||'Референс').slice(0,140),mime:'image/jpeg',size:blob.size,width,height},blob,previewURL:URL.createObjectURL(blob)};
+ }finally{URL.revokeObjectURL(url)}
+}
+async function addPhotos(files){
+ if(!photoDraft||!files?.length||photoDraftBusy)return;
+ const available=PHOTO_LIMIT-photoDraft.existing.length-photoDraft.added.length;
+ if(available<=0){notify('Для одной записи максимум 8 фото');return}
+ photoDraftBusy=true;updatePhotoPicker();let added=0;
+ try{for(const file of Array.from(files).slice(0,available)){
+   if(!activeKey||!photoDraft)throw new Error('Сейф закрыт');
+   const preview=await optimizePhoto(file);
+   photoDraft.added.push(preview);added++;
+ }}catch(err){notify('Не удалось добавить фото: '+err.message)}finally{photoDraftBusy=false;updatePhotoPicker();if(added)notify(`Добавлено фото: ${added}`)}
+}
+function removeDraftPhoto(id){if(!photoDraft)return;const p=photoDraft.added.find(p=>p.meta.id===id);if(p){URL.revokeObjectURL(p.previewURL);photoDraft.added=photoDraft.added.filter(x=>x.meta.id!==id)}else photoDraft.existing=photoDraft.existing.filter(p=>p.id!==id);updatePhotoPicker()}
+function markedAsChanged(){try{localStorage.setItem(BACKUP_MODIFIED_KEY,new Date().toISOString())}catch(e){}}
+function backupNeeded(){
+ const modified=localStorage.getItem(BACKUP_MODIFIED_KEY);if(!modified)return false;
+ const backup=localStorage.getItem(BACKUP_STATUS_KEY);if(!backup)return true;
+ return new Date(modified)>new Date(backup);
+}
+function backupNotice(){if(!backupNeeded())return '';return `<div class="backup-warning">🔐 <strong>Есть записи без резервной копии.</strong> Если удалить ХАОС с iPhone, их можно потерять.<div><button data-action="export">Сохранить зашифрованную копию →</button></div></div>`}
+
+function notify(msg){const el=$('#toast');el.textContent=msg;el.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('visible'),2900)}
+function projectName(id){const p=data.projects.find(x=>x.id===id);return p?p.title:''}
+function projectOptions(selected){return `<option value="">Без проекта</option>`+data.projects.map(p=>`<option value="${escape(p.id)}" ${p.id===selected?'selected':''}>${escape(p.title)}</option>`).join('')}
+function countProject(id){return data.tasks.filter(x=>x.projectId===id).length+data.entries.filter(x=>x.projectId===id).length}
+function sortedEntries(entries){return [...entries].sort((a,b)=>(b.updatedAt||b.createdAt||'').localeCompare(a.updatedAt||a.createdAt||''))}
+function sortedTasks(tasks){return [...tasks].sort((a,b)=>Number(a.done)-Number(b.done)||(a.due||'9999').localeCompare(b.due||'9999')||(b.createdAt||'').localeCompare(a.createdAt||''))}
+function stats(){const today=formatToday();return {todayTasks:data.tasks.filter(t=>!t.done&&t.due&&t.due<=today).length,active:data.tasks.filter(t=>!t.done).length,ideas:data.entries.filter(e=>e.type==='idea').length,entries:data.entries.length}}
+function empty(icon,title,desc,action,label){return `<div class="empty"><div class="empty-symbol">${icon}</div><div class="empty-title">${escape(title)}</div><p>${escape(desc)}</p>${action?`<button class="ghost-button" data-action="${action}">${escape(label||'Добавить +')}</button>`:''}</div>`}
+function projectBadge(id){return id&&projectName(id)?`<span class="pill">◈ ${escape(projectName(id))}</span>`:''}
+function dueBadge(t){if(!t.due)return '';const today=formatToday();const cls=!t.done&&t.due<today?'pink':t.due===today?'amber':'';return `<span class="pill ${cls}">${t.due<today&&!t.done?'Просрочено · ':''}${escape(readableDate(t.due))}</span>`}
+function taskCard(t){return `<div class="card"><div class="task-row"><button class="task-checkbox ${t.done?'checked':''}" data-action="toggle-task" data-id="${escape(t.id)}" aria-label="${t.done?'Вернуть задачу':'Отметить выполненной'}">${t.done?'✓':''}</button><div class="task-text ${t.done?'done':''}" data-action="edit-task" data-id="${escape(t.id)}" role="button" tabindex="0"><h3 class="card-title">${escape(t.title)}</h3>${t.detail?`<div class="task-details">${escape(shorten(t.detail,100))}</div>`:''}<div class="inline-row" style="margin-top:10px">${dueBadge(t)}${projectBadge(t.projectId)}${t.priority==='high'?'<span class="pill pink">Важное</span>':''}</div></div><button class="icon-button" style="width:31px;height:31px;border-radius:10px" data-action="edit-task" data-id="${escape(t.id)}" aria-label="Изменить задачу"><span style="font-size:18px">⋯</span></button></div></div>`}
+function entryCard(e){const mood=e.mood?`<span class="pill pink">${escape(e.mood)}</span>`:'';return `<article class="card card-clickable" data-action="edit-entry" data-id="${escape(e.id)}" role="button" tabindex="0"><div class="card-head"><h3 class="card-title"><span class="entry-mark" aria-hidden="true">${typeIcons[e.type]||'▤'}</span>${escape(e.title||(e.type==='journal'?'Мой день':'Без названия'))}</h3><span class="pill">${escape(typeNames[e.type]||'Запись')}</span></div>${e.body?`<p class="card-body">${escape(shorten(e.body,150))}</p>`:''}${photoPreviews(e.photos)}<div class="meta">${escape(readableMoment(e.updatedAt||e.createdAt))}${mood?' · '+mood:''}${e.projectId?' · '+escape(projectName(e.projectId)):''}</div></article>`}
+function pageHead(tag,title,subtitle){return `<p class="eyebrow">${escape(tag)}</p><h1 class="page-title">${escape(title)}</h1><p class="page-subtitle">${escape(subtitle)}</p>`}
+function renderToday(){const s=stats(),today=formatToday(),dueTasks=sortedTasks(data.tasks.filter(t=>!t.done&&t.due&&t.due<=today)).slice(0,5),recent=sortedEntries(data.entries).slice(0,2);return `${backupNotice()}<div class="hero"><p class="eyebrow">ТВОЁ ПРОСТРАНСТВО</p><h1>Держим хаос<br>под контролем.</h1><p>Можно всё записать. Ничего не обязано быть идеальным.</p><button class="primary-button" data-action="add-idea">✦ Поймать мысль</button></div><div class="heading-inline"><h2 class="page-title" style="font-size:25px">Сегодня</h2><span class="count-info">${escape(readableWeekday())}</span></div><div class="section-gap"></div><div class="stat-grid"><div class="stat"><div class="stat-number purple">${s.todayTasks}</div><div class="stat-caption">на сегодня</div></div><div class="stat"><div class="stat-number pink">${s.ideas}</div><div class="stat-caption">идей</div></div><div class="stat"><div class="stat-number green">${s.entries}</div><div class="stat-caption">записей</div></div></div><div class="section-header"><h2>📌 Важное на сегодня</h2><button class="ghost-button" data-nav="tasks">Весь план ›</button></div>${dueTasks.length?dueTasks.map(taskCard).join(''):empty('☑','Задач на сегодня нет','Можно выдохнуть или придумать себе приключений.','add-task','Добавить задачу +')}<div class="section-header"><h2>✧ Недавние записи</h2><button class="ghost-button" data-nav="entries">Все записи ›</button></div>${recent.length?recent.map(entryCard).join(''):empty('✦','Чистый лист','Мысли, настроение, планы. Всё сюда.','add-entry','Создать запись +')}<p class="footer-note">Без оценок продуктивности. Это твой инструмент, а не надзиратель.</p>`}
+function renderTasks(){let list=sortedTasks(data.tasks);const today=formatToday();if(taskFilter==='active')list=list.filter(t=>!t.done);if(taskFilter==='today')list=list.filter(t=>!t.done&&t.due&&t.due<=today);if(taskFilter==='future')list=list.filter(t=>!t.done&&t.due>today);if(taskFilter==='done')list=list.filter(t=>t.done);return `${pageHead('ПЛАНЕР','Что по плану?','Планы меняются. Записи остаются.') }<div class="top-line"><span class="count-info">Незавершённых: ${data.tasks.filter(t=>!t.done).length}</span><button class="soft-button" data-action="add-task">+ Задача</button></div><div class="chip-row">${[['active','Актуальные'],['today','Сегодня'],['future','Позже'],['done','Готово'],['all','Все']].map(([id,label])=>`<button class="chip ${taskFilter===id?'active':''}" data-action="task-filter" data-filter="${id}">${label}</button>`).join('')}</div>${list.length?list.map(taskCard).join(''):empty('☑','Здесь пока пусто','Сделай первую задачу. Или не делай, это тоже вариант.','add-task','Добавить задачу +')}`}
+function renderEntries(){const filtered=sortedEntries(data.entries.filter(e=>entryFilter==='all'||e.type===entryFilter));return `${pageHead('ЗАПИСИ','Из головы на экран.','Дневник, заметки и мысли, которые нужно поймать за хвост.')}<div class="top-line"><span class="count-info">Всего записей: ${data.entries.length}</span><button class="soft-button" data-action="add-entry">+ Запись</button></div><div class="chip-row">${[['all','Все'],['journal','☾ Дневник'],['note','▤ Заметки'],['idea','✦ Идеи']].map(([id,label])=>`<button class="chip ${entryFilter===id?'active':''}" data-action="entry-filter" data-filter="${id}">${label}</button>`).join('')}</div>${filtered.length?filtered.map(entryCard).join(''):empty('▤','Тут ещё тихо','Открой дневник или сохрани первую внезапную мысль.','add-entry','Создать запись +')}`}
+function projectCard(p){return `<div class="card card-clickable" data-action="open-project" data-id="${escape(p.id)}" role="button" tabindex="0"><div class="card-head"><h3 class="card-title"><span class="entry-mark">◈</span>${escape(p.title)}</h3><span class="pill">${countProject(p.id)} элементов</span></div>${p.description?`<p class="card-body">${escape(shorten(p.description,140))}</p>`:''}<div class="meta">Нажми, чтобы открыть ›</div></div>`}
+function renderMore(){return `${pageHead('ВСЁ ОСТАЛЬНОЕ','Уголок управления.','Проекты, резервные копии и немного полезной паранойи.')}<button class="more-item" data-action="projects"><span class="more-icon">◈</span><span class="more-info"><strong>Мои проекты</strong><small>${data.projects.length} проектов · всё разложено по полочкам</small></span><span class="chevron">›</span></button><button class="more-item" data-action="settings"><span class="more-icon">⚙</span><span class="more-info"><strong>Настройки и данные</strong><small>Резервная копия, восстановление, безопасность</small></span><span class="chevron">›</span></button><div class="info-box">🔐 <strong>Твои записи:</strong> хранятся зашифрованными. Облачная копия доступна через настройки после входа в личный аккаунт. Отдельный файл .haos всё равно полезен.</div>`}
+function renderProjects(){return `<div class="top-line"><div>${pageHead('ПАПКИ ДЛЯ ЖИЗНИ','Проекты','Разные вселенные. Одна голова.')}</div></div><div class="section-header" style="margin-top:0"><span class="count-info">Всего проектов: ${data.projects.length}</span><button class="soft-button" data-action="add-project">+ Проект</button></div>${data.projects.length?data.projects.map(projectCard).join(''):empty('◈','Проектов пока нет','Можно завести папки для работы, творчества и любых безумных затей.','add-project','Создать проект +')}<button class="ghost-button" data-action="more">‹ Назад</button>`}
+function renderProject(){const p=data.projects.find(x=>x.id===activeProjectId);if(!p){view='projects';return renderProjects()}const tasks=sortedTasks(data.tasks.filter(x=>x.projectId===p.id)),entries=sortedEntries(data.entries.filter(x=>x.projectId===p.id));return `<button class="ghost-button" data-action="projects">‹ Все проекты</button>${pageHead('ПРОЕКТ','◈ '+p.title,p.description||'Здесь всё, что относится к этому проекту.')}<div class="top-line"><span class="count-info">${tasks.length} задач · ${entries.length} записей</span><button class="soft-button" data-action="edit-project" data-id="${escape(p.id)}">Изменить</button></div><div class="section-header"><h2>Задачи</h2><button class="ghost-button" data-action="add-project-task" data-id="${escape(p.id)}">+ Добавить</button></div>${tasks.length?tasks.map(taskCard).join(''):empty('☑','Задач пока нет','Начни с одного маленького шага.','add-task','Добавить задачу +')}<div class="section-header"><h2>Записи</h2><button class="ghost-button" data-action="add-project-note" data-id="${escape(p.id)}">+ Добавить</button></div>${entries.length?entries.map(entryCard).join(''):empty('▤','Записей пока нет','Здесь появятся мысли и материалы по проекту.','add-entry','Создать запись +')}`}
+
+// HAOS Cloud v1.3. Public configuration only; never place database secrets in browser code.
+const CLOUD_URL='https://pgkjpybqnazceaknflnu.supabase.co';
+const CLOUD_PUBLIC_KEY='sb_publishable_eHy3AW5538dMzLZXVS_EhA_LNYuuzGs';
+const CLOUD_SESSION_KEY='haos-cloud-session-v1';
+const CLOUD_BUCKET='haos-encrypted-photos';
+const CLOUD_SITE='https://7hbfj7pn24-del.github.io/haos-app/';
+let cloudSession=null,cloudStatus='Облако ещё не подключено',cloudBusy=false;
+let cloudEnabled=false,cloudRev=null,cloudTimer=null,cloudSyncing=false,cloudAgain=false;
+try{cloudSession=JSON.parse(localStorage.getItem(CLOUD_SESSION_KEY)||'null')}catch(_){}
+function cloudUser(){return cloudSession?.user?.id||null}
+function cloudRevisionKey(){return 'haos-cloud-revision-'+cloudUser()}
+function cloudEnabledKey(){return 'haos-cloud-enabled-'+cloudUser()}
+function cloudPhotoKey(){return 'haos-cloud-photos-'+cloudUser()}
+function cloudRefreshLocalState(){cloudRev=cloudUser()?Number(localStorage.getItem(cloudRevisionKey())||0)||null:null;cloudEnabled=!!cloudUser()&&localStorage.getItem(cloudEnabledKey())==='yes'}
+cloudRefreshLocalState();
+function cloudMessage(msg){cloudStatus=msg;cloudUpdateBadge();if(view==='settings'&&!document.body.classList.contains('is-locked'))render()}
+function cloudUpdateBadge(){const badge=document.querySelector('.local-badge');if(!badge)return;badge.title=cloudEnabled?'Последняя версия зашифрованного сейфа копируется в облако':'Записи сейчас хранятся локально';const label=badge.lastChild;if(label&&label.nodeType===Node.TEXT_NODE)label.textContent=cloudEnabled?'облако':'локально'}
+function cloudStoreSession(token){cloudSession=token;localStorage.setItem(CLOUD_SESSION_KEY,JSON.stringify(token));cloudRefreshLocalState()}
+async function cloudAuthRefresh(){
+ if(!cloudSession?.refresh_token)throw new Error('Сеанс истёк. Войди снова.');
+ const res=await fetch(CLOUD_URL+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:CLOUD_PUBLIC_KEY,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:cloudSession.refresh_token})});
+ const payload=await res.json().catch(()=>({}));if(!res.ok||!payload.access_token){cloudEnabled=false;throw new Error('Нужно заново войти в облако.')}
+ cloudStoreSession({...payload,expires_at:Math.floor(Date.now()/1000)+payload.expires_in});return cloudSession;
+}
+async function cloudToken(){if(!cloudSession?.access_token)throw new Error('Сначала войди в облачный аккаунт');if(!cloudSession.expires_at||cloudSession.expires_at<Date.now()/1000+90)await cloudAuthRefresh();return cloudSession.access_token}
+async function cloudRequest(path,opts={}){
+ const headers={apikey:CLOUD_PUBLIC_KEY,...(opts.headers||{})};
+ if(opts.authorized!==false)headers.Authorization='Bearer '+await cloudToken();
+ let body=opts.body;
+ if(opts.json!==undefined){headers['Content-Type']='application/json';body=JSON.stringify(opts.json)}
+ const res=await fetch(CLOUD_URL+path,{method:opts.method||'GET',headers,body,cache:'no-store'});
+ if(opts.allowConflict&&res.status===409)return {conflict:true};
+ if(!res.ok){const error=await res.json().catch(()=>({}));throw new Error(error.msg||error.message||error.error_description||error.error||'Ошибка облака ('+res.status+')')}
+ if(opts.binary)return res.arrayBuffer();
+ if(res.status===204)return null;
+ return res.json().catch(()=>null);
+}
+async function cloudAccount(mode){
+ if(cloudBusy)return;
+ const email=$('#cloudEmail')?.value?.trim(),password=$('#cloudPassword')?.value;
+ if(!email||!password){notify('Введи почту и пароль');return}
+ if(password.length<8){notify('Пароль аккаунта: хотя бы 8 символов');return}
+ cloudBusy=true;cloudMessage('Проверяю аккаунт…');
+ try{
+   const path=mode==='register'?'/auth/v1/signup?redirect_to='+encodeURIComponent(CLOUD_SITE):'/auth/v1/token?grant_type=password';
+   const payload=await cloudRequest(path,{method:'POST',authorized:false,json:{email,password}});
+   if(payload?.access_token){cloudStoreSession({...payload,expires_at:Math.floor(Date.now()/1000)+payload.expires_in});cloudMessage('Вход выполнен. Теперь подключи копирование или восстанови данные.');}
+   else if(mode==='register')cloudMessage('Проверь почту и подтверди регистрацию. После этого вернись и нажми «Войти».');
+   else throw new Error('Вход не выполнен. Проверь почту и пароль.');
+ }catch(err){cloudMessage(err.message);notify('Облако: '+err.message)}finally{cloudBusy=false}
+}
+async function cloudGetRow(){const rows=await cloudRequest('/rest/v1/haos_vaults?select=encrypted_vault,revision,updated_at&owner_id=eq.'+encodeURIComponent(cloudUser())+'&limit=1');return rows?.[0]||null}
+function cloudPhotoSet(){try{return new Set(JSON.parse(localStorage.getItem(cloudPhotoKey())||'[]'))}catch(_){return new Set()}}
+function cloudSavePhotoSet(ids){localStorage.setItem(cloudPhotoKey(),JSON.stringify([...ids]))}
+async function cloudUploadPhotos(photos){
+ const have=cloudPhotoSet();
+ for(const meta of photos){
+  if(have.has(meta.id))continue;
+  const item=await photoDBGet(meta.id);
+  if(!item)throw new Error('Фото '+(meta.name||meta.id)+' отсутствует на телефоне. Копия остановлена.');
+  const iv=new Uint8Array(item.iv),cipher=new Uint8Array(item.ciphertext);
+  const payload=new Uint8Array(iv.length+cipher.length);payload.set(iv);payload.set(cipher,iv.length);
+  const path='/storage/v1/object/'+CLOUD_BUCKET+'/'+cloudUser()+'/'+encodeURIComponent(meta.id)+'.enc';
+  const result=await cloudRequest(path,{method:'POST',headers:{'Content-Type':'application/octet-stream'},body:payload,allowConflict:true});
+  if(result?.conflict){} // Previously uploaded; same random photo ID, no replacement.
+  have.add(meta.id);cloudSavePhotoSet(have);
+ }
+}
+function cloudPhotoReferences(){const seen=new Map();for(const e of data.entries)for(const p of e.photos||[])if(p&&p.id)seen.set(p.id,p);return [...seen.values()]}
+async function cloudPush(){
+ if(!cloudEnabled||!cloudUser()||!activeKey)return;
+ if(cloudSyncing){cloudAgain=true;return}
+ cloudSyncing=true;
+ try{
+  await persistQueue;
+  if(!activeKey)return;
+  const snapshot=JSON.parse(localStorage.getItem(VAULT_KEY)||'null');if(!snapshot)throw new Error('Сначала сохрани локальный сейф.');
+  const initialRev=cloudRev;
+  const photos=cloudPhotoReferences();await cloudUploadPhotos(photos);
+  if(!activeKey||!cloudEnabled)return;
+  let next;
+  if(initialRev===null){
+   const row=await cloudRequest('/rest/v1/haos_vaults?select=revision',{method:'POST',headers:{Prefer:'return=representation'},json:{owner_id:cloudUser(),encrypted_vault:snapshot,revision:1},allowConflict:true});
+   if(row?.conflict||!row?.[0])throw new Error('В облаке уже есть данные. Автозагрузка остановлена. Используй восстановление.');
+   next=Number(row[0].revision);
+  }else{
+   const row=await cloudRequest('/rest/v1/haos_vaults?owner_id=eq.'+encodeURIComponent(cloudUser())+'&revision=eq.'+initialRev+'&select=revision',{method:'PATCH',headers:{Prefer:'return=representation'},json:{encrypted_vault:snapshot,revision:initialRev+1,updated_at:new Date().toISOString()}});
+   if(!row?.length)throw new Error('Облако изменилось на другом устройстве. Синхронизация остановлена, чтобы ничего не затереть.');
+   next=Number(row[0].revision);
+  }
+  cloudRev=next;localStorage.setItem(cloudRevisionKey(),String(next));
+  localStorage.setItem('haos-cloud-last-sync-'+cloudUser(),new Date().toISOString());
+  cloudMessage('Зашифрованная копия сохранена в облаке ✓');
+ }catch(err){
+  if(/Облако изменилось|уже есть данные/.test(err.message)){cloudEnabled=false;localStorage.removeItem(cloudEnabledKey())}
+  cloudMessage('Не синхронизировано: '+err.message);
+ }finally{
+  cloudSyncing=false;
+  if(cloudAgain){cloudAgain=false;cloudSchedule()}
+ }
+}
+function cloudSchedule(){if(!cloudEnabled||!cloudUser())return;clearTimeout(cloudTimer);cloudTimer=setTimeout(()=>{cloudPush().catch(console.warn)},1100)}
+// Compare *decrypted* content, not ciphertext: every AES-GCM save uses a random IV.
+// Never take the remote revision on faith: accept it only when both datasets match.
+function canonicalVaultForComparison(state){
+ const clean=validateData(state);
+ const norm=value=>{
+  if(Array.isArray(value))return value.map(norm);
+  if(value&&typeof value==='object')return Object.fromEntries(Object.keys(value).sort().map(k=>[k,norm(value[k])]));
+  return value;
+ };
+ return JSON.stringify(norm(Object.fromEntries(['tasks','entries','projects'].map(k=>[
+  k,[...clean[k]].sort((a,b)=>String(a?.id||'').localeCompare(String(b?.id||'')))
+ ]))));
+}
+async function cloudEnable(){
+ if(cloudBusy)return;
+ if(!cloudUser()){notify('Сначала войди в облако');return}
+ cloudBusy=true;cloudMessage('Проверяю безопасное подключение…');
+ try{
+  await persistQueue;
+  const existing=await cloudGetRow();
+  if(existing&&Number(existing.revision)!==cloudRev){
+   cloudMessage('Облако обновлялось в другом окне. Перед сверкой сохрани текущий файл .haos в iCloud Drive.');
+   if(!confirm('Обнаружены две версии сейфа. Сначала сохрани свежую копию .haos в iCloud Drive. Уже сохранила и хочешь СВЕРИТЬ содержимое без изменения облака?'))return;
+   const password=prompt('Пароль ЛИЧНОГО СЕЙФА, которым зашифрована текущая облачная копия (не пароль входа в аккаунт):');
+   if(password===null)return;
+   let remote;
+   try{remote=(await decryptState(existing.encrypted_vault,password)).data}
+   catch(_){throw new Error('Не удалось расшифровать облачную копию этим паролем. Данные не изменены. Возможно, нужен пароль сейфа из частного Safari.')}
+   if(canonicalVaultForComparison(remote)!==canonicalVaultForComparison(data)){
+    throw new Error('Локальные и облачные записи РАЗЛИЧАЮТСЯ. Ничего не перезаписано. Сохрани оба сейфа и не включай синхронизацию до объединения.');
+   }
+   // A different browser could have saved again while the password dialog was open.
+   const latest=await cloudGetRow();
+   if(!latest||Number(latest.revision)!==Number(existing.revision))throw new Error('Пока проверяли, облако обновилось снова. Ничего не изменено. Повтори сверку позже.');
+   // Exact content match. Adopt only the remote revision number. No cloud write.
+   cloudRev=Number(latest.revision);
+   localStorage.setItem(cloudRevisionKey(),String(cloudRev));
+   cloudEnabled=true;
+   localStorage.setItem(cloudEnabledKey(),'yes');
+   localStorage.setItem('haos-cloud-last-sync-'+cloudUser(),latest.updated_at||new Date().toISOString());
+   cloudMessage('Проверено ✓ Обе копии содержат одинаковые записи. Синхронизация снова включена без перезаписи облака.');
+   return;
+  }
+  cloudEnabled=true;localStorage.setItem(cloudEnabledKey(),'yes');
+  cloudBusy=false;await cloudPush();return;
+ }catch(err){cloudMessage(err.message)}finally{cloudBusy=false}
+}
+async function cloudDownloadPhoto(id){
+ const raw=new Uint8Array(await cloudRequest('/storage/v1/object/authenticated/'+CLOUD_BUCKET+'/'+cloudUser()+'/'+encodeURIComponent(id)+'.enc',{binary:true}));
+ if(raw.length<29)throw new Error('Повреждён файл фото: '+id);
+ return {version:1,iv:raw.slice(0,12).buffer,ciphertext:raw.slice(12).buffer,mime:'image/jpeg'};
+}
+async function cloudRestore(){
+ if(cloudBusy)return;if(!cloudUser()){notify('Войди в облачный аккаунт');return}
+ if(data.entries.length||data.tasks.length||data.projects.length){alert('Здесь уже есть записи. Чтобы не потерять их, восстановление разрешено только в пустой ХАОС. Сначала сохрани файл .haos, а затем используй чистую установку.');return}
+ const password=prompt('Введите пароль ЛИЧНОГО СЕЙФА из облачной копии (не пароль Supabase):');if(password===null)return;
+ cloudBusy=true;cloudMessage('Проверяю облачную копию…');const created=[];
+ try{
+  const row=await cloudGetRow();if(!row)throw new Error('В облаке ещё нет резервной копии.');
+  const opened=await decryptState(row.encrypted_vault,password);
+  const clean=validateData(opened.data);
+  const photos=new Map();
+  for(const entry of clean.entries)for(const p of entry.photos||[])if(p?.id&&!photos.has(p.id))photos.set(p.id,p);
+  const rebuilt=[];
+  for(const old of photos.values()){
+   const item=await cloudDownloadPhoto(old.id);
+   const plain=await decryptPhotoWithKey(item,opened.key);
+   rebuilt.push({oldId:old.id,newId:uid(),plain});
+  }
+  if(!confirm('Найдена зашифрованная копия: '+clean.entries.length+' записей, '+clean.tasks.length+' задач, '+rebuilt.length+' фото. Восстановить в пустой ХАОС?'))return;
+  const mapping=new Map(rebuilt.map(p=>[p.oldId,p.newId]));
+  for(const x of rebuilt){await storePhotoWithKey(x.newId,'image/jpeg',x.plain,activeKey);created.push(x.newId)}
+  for(const entry of clean.entries)for(const photo of entry.photos||[])photo.id=mapping.get(photo.id)||photo.id;
+  const oldData=data;const oldAuto=cloudEnabled;
+  cloudEnabled=false;
+  try{data=clean;await save()}catch(err){data=oldData;cloudEnabled=oldAuto;throw err}
+  cloudRev=Number(row.revision);localStorage.setItem(cloudRevisionKey(),String(cloudRev));
+  cloudEnabled=true;localStorage.setItem(cloudEnabledKey(),'yes');
+  cloudMessage('Восстановлено из облака! Фото и записи на месте. Синхронизация включена.');
+  render();cloudSchedule();
+ }catch(err){for(const id of created)await photoDBDelete(id).catch(()=>{});cloudMessage('Восстановление не выполнено: '+err.message)}finally{cloudBusy=false}
+}
+function cloudLogout(){
+ cloudSession=null;cloudEnabled=false;cloudRev=null;clearTimeout(cloudTimer);
+ localStorage.removeItem(CLOUD_SESSION_KEY);
+ cloudMessage('Выход выполнен. Локальные записи остались на этом телефоне.');
+}
+function cloudUI(){
+ const signed=!!cloudUser();
+ const last=signed?localStorage.getItem('haos-cloud-last-sync-'+cloudUser()):null;
+ return `<div class="section-header"><h2>☁️ Личный облачный аккаунт</h2></div><div class="card cloud-card"><h3 class="card-title">${signed?'Ты в облаке':'Войти или зарегистрироваться'}</h3>
+ <p class="card-body">${signed?'Аккаунт: '+escape(cloudSession.user.email||'Личный'):'Почта и пароль аккаунта Supabase. Это отдельный пароль от сейфа ХАОС.'}</p>
+ <p class="cloud-status">${escape(cloudStatus)}</p>
+ ${signed?`<p class="card-body">Автосохранение: <strong>${cloudEnabled?'включено':'выключено'}</strong>${last?' · последняя копия '+escape(readableMoment(last)):''}</p>
+ <div class="cloud-actions"><button class="primary-button" data-action="cloud-enable">☁ ${cloudEnabled?'Синхронизировать сейчас':'Проверить версии и включить синхронизацию'}</button><button class="soft-button" data-action="cloud-restore">↑ Восстановить из облака</button><button class="ghost-button" data-action="cloud-logout">Выйти из облака</button></div>`
+ :`<div class="cloud-fields"><input id="cloudEmail" type="email" autocomplete="email" placeholder="Твоя почта" aria-label="Почта"><input id="cloudPassword" type="password" autocomplete="new-password" placeholder="Пароль аккаунта" aria-label="Пароль аккаунта" minlength="8"></div><div class="cloud-actions"><button class="primary-button" data-action="cloud-login">Войти</button><button class="soft-button" data-action="cloud-register">Создать аккаунт</button></div>`}
+ <p class="card-body" style="margin-top:13px">Облако хранит <strong>зашифрованные</strong> записи и фото. Если на другом телефоне уже есть другой сейф, приложение не перезапишет его молча. Сохраняй файл .haos отдельно на всякий случай.</p></div>`
+}
+window.addEventListener('online',()=>cloudSchedule());
+
+function renderSettings(){
+ const backup=localStorage.getItem(BACKUP_STATUS_KEY);
+ const when=backup?readableDate(backup):'Резервной копии ещё нет';
+ const count=data.entries.reduce((n,e)=>n+(e.photos||[]).length,0);
+ return `<button class="ghost-button" data-action="more">‹ Назад</button>${pageHead('НАСТРОЙКИ','Твои данные.','Никаких подписок. Только личный зашифрованный сейф.')}
+ ${cloudUI()}
+ <div class="section-header"><h2>🔐 Защита от потери</h2></div>${backupNotice()}
+ <div class="card"><h3 class="card-title">Сохранить всё: записи + фото</h3><p class="card-body">Создаёт один зашифрованный файл. В меню iPhone выбери «Сохранить в Файлы» → <strong>iCloud Drive</strong>. Копия не появится в облаке автоматически.</p>
+ <span class="backup-status">Последняя копия: ${escape(when)}</span><p class="card-body">Фото в дневнике: ${count}. Для восстановления нужен пароль от сейфа.</p><div style="height:12px"></div><button class="primary-button" data-action="export">↓ Сделать зашифрованную копию</button></div>
+ <div class="card"><h3 class="card-title">✦ Добавить записи из старого ХАОСа</h3><p class="card-body">Объединяет старую зашифрованную копию с текущими записями, задачами, проектами и фото. Ничего не заменяет. Повторно импортированные ID пропускает. Перед переносом сохрани свежую копию в iCloud Drive.</p><div style="height:12px"></div><button class="primary-button" data-action="merge">＋ Объединить со старой копией</button></div>
+ <div class="card"><h3 class="card-title">Восстановить из файла</h3><p class="card-body"><strong>Заменяет все текущие записи.</strong> Для переноса старых записей без потерь используй кнопку «Объединить» выше.</p><div style="height:12px"></div><button class="soft-button" data-action="import">↑ Восстановить записи и фото</button></div>
+ <div class="card"><h3 class="card-title">🔒 Заблокировать сейчас</h3><p class="card-body">При сворачивании ХАОС блокируется автоматически.</p><div style="height:12px"></div><button class="soft-button" data-action="lock-vault">Закрыть сейф</button></div>
+ <div class="section-header"><h2>Важно знать</h2></div>
+ <div class="info-box">Фото хранятся <strong>в зашифрованном виде</strong>, не в GitHub. После входа в облако и включения синхронизации зашифрованная копия отправляется на Supabase; при сбое сети изменения остаются на iPhone. Дополнительно сохраняй файл .haos в iCloud Drive. Публичный сайт не становится закрытым из-за входа.</div>
+ <div class="card"><h3 class="card-title">Очистить всё</h3><p class="card-body">Безвозвратно удалить задачи, дневник, заметки и фото на этом устройстве.</p><div style="height:12px"></div><button class="danger-button" data-action="clear-all">Удалить все данные</button></div><p class="footer-note">ХАОС · 1.4.1 Cloud Beta · бесплатно ♥</p>`;
+}
+function renderSearch(){const q=query.toLocaleLowerCase('ru-RU').trim();const match=s=>String(s||'').toLocaleLowerCase('ru-RU').includes(q);const tasks=sortedTasks(data.tasks.filter(x=>match(x.title)||match(x.detail)||match(projectName(x.projectId))));const entries=sortedEntries(data.entries.filter(x=>match(x.title)||match(x.body)||match(projectName(x.projectId))));const projects=data.projects.filter(x=>match(x.title)||match(x.description));return `${pageHead('ПОИСК','Нашлось вот что.','Поиск по задачам, дневнику, заметкам, идеям и проектам.')}<div class="section-header"><h2>Результаты</h2><span class="count-info">${tasks.length+entries.length+projects.length}</span></div>${tasks.map(taskCard).join('')}${entries.map(entryCard).join('')}${projects.map(projectCard).join('')}${!(tasks.length+entries.length+projects.length)?empty('⌕','Совпадений нет','Попробуй другое слово.'):''}`}
+function render(){document.querySelectorAll('[data-nav]').forEach(el=>el.classList.toggle('active',el.dataset.nav===view||((view==='projects'||view==='project'||view==='settings')&&el.dataset.nav==='more')));main.innerHTML=query.trim()?renderSearch():({today:renderToday,tasks:renderTasks,entries:renderEntries,more:renderMore,projects:renderProjects,project:renderProject,settings:renderSettings}[view]||renderToday)();cloudUpdateBadge();hydratePhotos(main)}
+function go(target){view=target;query='';$('#globalSearch').value='';$('#searchPanel').classList.add('hidden');window.scrollTo({top:0,behavior:'instant'});render()}
+function modalBase(title,body){modal.innerHTML=`<div class="modal-backdrop" id="backdrop"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="sheet-handle"></div><div class="sheet-top"><h2 class="sheet-title" id="modalTitle">${escape(title)}</h2><button class="close-button" data-action="close-modal" aria-label="Закрыть">×</button></div>${body}</div></div>`;const first=modal.querySelector('input,textarea,[data-action="choose"]');if(first)setTimeout(()=>first.focus({preventScroll:true}),60)}
+function closeModal(){resetPhotoDraft();modal.innerHTML=''}
+async function viewPhoto(id){
+ if(!activeKey||!id)return;
+ try{
+  const url=await getPhotoURL(id);
+  if(!url||!activeKey)throw new Error('Фото не найдено на устройстве');
+  modalBase('Фото-референс',`<img src="${escape(url)}" class="photo-viewer" alt="Фото из заметки"><p class="card-body">Фото хранится зашифрованным в личном ХАОСе.</p>`);
+ }catch(err){notify('Не удалось открыть фото: '+err.message)}
+}
+
+function chooseType(){modalBase('Что сохраняем?',`<div class="choose-grid"><button class="choose-card" data-action="choose" data-type="idea"><span class="choose-icon">✦</span><strong>Идея</strong><small>Внезапно пришло в голову</small></button><button class="choose-card" data-action="choose" data-type="task"><span class="choose-icon">☑</span><strong>Задача</strong><small>Надо сделать. Наверное</small></button><button class="choose-card" data-action="choose" data-type="journal"><span class="choose-icon">☾</span><strong>Дневник</strong><small>Как прошёл день</small></button><button class="choose-card" data-action="choose" data-type="note"><span class="choose-icon">▤</span><strong>Заметка</strong><small>Чтобы не забыть</small></button><button class="choose-card" data-action="choose" data-type="project"><span class="choose-icon">◈</span><strong>Проект</strong><small>Собрать всё в одной папке</small></button></div>`)}
+function formField(name,label,value,placeholder='',required=false){return `<label class="field"><span class="field-label">${escape(label)}</span><input name="${name}" value="${escape(value||'')}" placeholder="${escape(placeholder)}" ${required?'required':''} maxlength="180"></label>`}
+function textareaField(name,label,value,placeholder){return `<label class="field"><span class="field-label">${escape(label)}</span><textarea name="${name}" placeholder="${escape(placeholder)}" maxlength="20000">${escape(value||'')}</textarea></label>`}
+function projectSelect(selected){return `<label class="field"><span class="field-label">Проект (необязательно)</span><select name="projectId">${projectOptions(selected)}</select></label>`}
+function openForm(kind,id=null,preselectedProject=null){const collection=kind==='task'?'tasks':kind==='project'?'projects':'entries';const existing=id?data[collection].find(x=>x.id===id):null;const isEdit=!!existing;resetPhotoDraft();if(collection==='entries')photoDraft={existing:Array.isArray(existing?.photos)?existing.photos.map(p=>({...p})):[],added:[]};let fields='';const title=isEdit?'Изменить '+(kind==='task'?'задачу':kind==='project'?'проект':'запись'):({task:'Новая задача',journal:'Мой дневник',note:'Новая заметка',idea:'Новая идея',project:'Новый проект'}[kind]);
+if(kind==='task')fields=formField('title','Что сделать?',existing?.title,'Например: разобраться с планами',true)+textareaField('detail','Подробности',existing?.detail,'Любые детали, ссылки, мысли…')+`<div class="field-grid"><label class="field"><span class="field-label">Когда</span><input type="date" name="due" value="${escape(existing?.due||'')}"></label><label class="field"><span class="field-label">Важность</span><select name="priority"><option value="normal" ${existing?.priority!=='high'?'selected':''}>Обычная</option><option value="high" ${existing?.priority==='high'?'selected':''}>Важная</option></select></label></div>`+projectSelect(existing?.projectId??preselectedProject);
+else if(kind==='project')fields=formField('title','Название проекта',existing?.title,'Например: мои планы',true)+textareaField('description','Описание',existing?.description,'Что здесь будет жить?');
+else fields=formField('title',kind==='journal'?'Название (необязательно)':'Название',existing?.title,kind==='journal'?'Например: странный день':'Дай мысли название',kind!=='journal')+textareaField('body',kind==='journal'?'Что сегодня произошло?':'Текст',existing?.body,kind==='journal'?'Рассказывай. Здесь можно быть собой.':'Пиши всё, что хочется…')+(kind==='journal'?`<label class="field"><span class="field-label">Настроение (необязательно)</span><select name="mood"><option value="">Не выбрано</option>${moods.map(([emoji,label])=>`<option value="${emoji+' '+label}" ${existing?.mood===emoji+' '+label?'selected':''}>${emoji} ${label}</option>`).join('')}</select></label>`:'')+projectSelect(existing?.projectId??preselectedProject);
+modalBase(title,`<form id="recordForm" data-kind="${kind}" data-id="${escape(id||'')}">${fields}${collection==='entries'?`<div id="photoPickerSlot">${photoPickerMarkup()}</div>`:''}<div class="form-actions">${isEdit?`<button type="button" class="danger-button" data-action="delete" data-kind="${kind}" data-id="${escape(id)}">Удалить</button>`:'<span></span>'}<button class="primary-button" type="submit">${isEdit?'Сохранить изменения':'Сохранить'}</button></div></form>`);if(collection==='entries')hydratePhotos(modal);
+}
+async function submitForm(event){
+ event.preventDefault();if(photoDraftBusy){notify('Подожди, фото ещё обрабатываются');return}
+ const form=event.target,kind=form.dataset.kind,id=form.dataset.id;
+ const fields=Object.fromEntries(new FormData(form));const title=String(fields.title||'').trim(),body=String(fields.body||'').trim();
+ const photos=photoDraft?[...photoDraft.existing,...photoDraft.added.map(x=>x.meta)]:[];
+ if((kind!=='journal'&&!title)||(kind==='journal'&&!title&&!body&&!photos.length)){notify('Напиши хоть что-нибудь или добавь фото ✎');return}
+ const collection=kind==='task'?'tasks':kind==='project'?'projects':'entries';
+ const existing=data[collection].find(x=>x.id===id);const timestamp=time();let record;
+ if(kind==='task')record={id:existing?.id||uid(),title,detail:String(fields.detail||'').trim(),due:fields.due||'',priority:fields.priority==='high'?'high':'normal',projectId:fields.projectId||'',done:existing?.done||false,createdAt:existing?.createdAt||timestamp,updatedAt:timestamp};
+ else if(kind==='project')record={id:existing?.id||uid(),title,description:String(fields.description||'').trim(),createdAt:existing?.createdAt||timestamp,updatedAt:timestamp};
+ else record={id:existing?.id||uid(),type:kind,title:title||(kind==='journal'?'Запись за '+readableDate(formatToday()):'Без названия'),body,mood:kind==='journal'?fields.mood||'':'',projectId:fields.projectId||'',photos,createdAt:existing?.createdAt||timestamp,updatedAt:timestamp};
+ const button=form.querySelector('[type="submit"]');if(button){button.disabled=true;button.textContent='Сохраняю…'}
+ const oldItems=data[collection];const addedIds=[];
+ try{
+   if(collection==='entries'&&photoDraft){for(const item of photoDraft.added){await storePhotoWithKey(item.meta.id,item.meta.mime,await item.blob.arrayBuffer(),activeKey);addedIds.push(item.meta.id)}}
+   data[collection]=existing?oldItems.map(x=>x.id===id?record:x):[...oldItems,record];
+   await save();markedAsChanged();
+   if(existing?.photos?.length){for(const p of existing.photos){if(!photos.some(x=>x.id===p.id)){photoDBDelete(p.id).catch(console.warn);const url=photoURLCache.get(p.id);if(url){URL.revokeObjectURL(url);photoURLCache.delete(p.id)}}}}
+   closeModal();render();notify(existing?'Изменения сохранены ♥':'Сохранено ♥');
+ }catch(error){data[collection]=oldItems;for(const id of addedIds)await photoDBDelete(id).catch(console.warn);notify('Не удалось сохранить запись: '+error.message)}
+ finally{if(button&&button.isConnected){button.disabled=false;button.textContent=existing?'Сохранить изменения':'Сохранить'}}
+}
+function toggleTask(id){const t=data.tasks.find(x=>x.id===id);if(!t)return;t.done=!t.done;t.updatedAt=time();save();render();notify(t.done?'Готово ✓':'Задача снова в списке')}
+async function removeRecord(kind,id){
+ const collection=kind==='task'?'tasks':kind==='project'?'projects':'entries';
+ if(!confirm(kind==='project'?'Удалить проект? Задачи и записи останутся, но без привязки к нему.':'Удалить эту запись без возможности отмены?'))return;
+ const previous=JSON.parse(JSON.stringify(data));const target=data[collection].find(x=>x.id===id);
+ data[collection]=data[collection].filter(x=>x.id!==id);
+ if(kind==='project'){for(const x of [...data.tasks,...data.entries])if(x.projectId===id)x.projectId='';if(activeProjectId===id)view='projects'}
+ try{await save();if(kind!=='task'&&kind!=='project'&&target?.photos){for(const p of target.photos)photoDBDelete(p.id).catch(console.warn)}closeModal();render();notify('Удалено')}
+ catch(err){data=previous;notify('Не получилось удалить: '+err.message)}
+}
+
+async function buildEncryptedBackup(){
+ await persistQueue;
+ const vault=JSON.parse(localStorage.getItem(VAULT_KEY));if(!vault)throw new Error('Сейф ещё не сохранён');
+ const references=[...new Set(data.entries.flatMap(e=>(e.photos||[]).map(p=>p.id)))];
+ const photos=[];
+ for(const id of references){const item=await photoDBGet(id);if(!item)throw new Error('Не найдена фотография '+id+'. Копия не создана, чтобы ничего не потерять.');
+   photos.push({id,mime:'image/jpeg',iv:toBase64(new Uint8Array(item.iv)),ciphertext:toBase64(new Uint8Array(item.ciphertext)),version:1});
+ }
+ return {format:'haos-encrypted-backup-v3',exportedAt:time(),vault,photos};
+}
+async function downloadBackup(){
+ try{
+   const payload=await buildEncryptedBackup();
+   const filename=`HAOS_PRIVATE_${formatToday()}.haos`;
+   const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
+   const file=new File([blob],filename,{type:'application/json'});
+   // Запрашиваем у пользователя системное сохранение: сайт не может без разрешения записывать в iCloud Drive.
+   if(navigator.canShare?.({files:[file]})&&navigator.share){
+     try{await navigator.share({files:[file],title:'Шифрованная копия ХАОС',text:'Выбери «Сохранить в Файлы», затем iCloud Drive.'});}
+     catch(err){if(err.name==='AbortError')return;throw err;}
+   }else{
+     const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.style.display='none';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);
+     alert('Файл резервной копии сохранён в Загрузки. Перемести его в «Файлы» → iCloud Drive.');
+   }
+   localStorage.setItem(BACKUP_STATUS_KEY,time());render();notify('Копия подготовлена. Проверь, что файл есть в iCloud Drive ♥');
+ }catch(err){console.error('Backup error',err);notify('Не удалось сделать копию: '+err.message)}
+}
+async function mergeBackup(file){
+ if(!file)return;
+ const createdIds=[];
+ try{
+  if(file.size>350*1024*1024)throw new Error('Файл слишком большой');
+  if(cloudSyncing||cloudBusy)throw new Error('Дождись завершения облачной синхронизации');
+  if(cloudUser()&&!cloudEnabled)throw new Error('Сначала включи синхронизацию и дождись сообщения, что сейф сохранён в облаке');
+  await persistQueue;
+  if(cloudEnabled){
+   const row=await cloudGetRow();
+   if(!row||Number(row.revision)!==cloudRev)throw new Error('В облаке версия отличается от локальной. Остановлено, чтобы не потерять записи.');
+  }
+  const raw=JSON.parse(await file.text());let restored,oldKey=null,sourcePhotos=[];
+  if(raw?.format==='haos-encrypted-backup-v3'&&raw.vault&&Array.isArray(raw.photos)){
+   const password=prompt('Пароль старого сейфа для переноса записей:');if(password===null)return;
+   const opened=await decryptState(raw.vault,password);restored=opened.data;oldKey=opened.key;sourcePhotos=raw.photos;
+  }else if(raw?.format==='haos-encrypted-backup-v2'&&raw.vault){
+   const password=prompt('Пароль старого сейфа для переноса записей:');if(password===null)return;
+   const opened=await decryptState(raw.vault,password);restored=opened.data;
+  }else if(Array.isArray(raw.tasks)&&Array.isArray(raw.entries)&&Array.isArray(raw.projects)){
+   if(!confirm('Это незашифрованный старый файл. Добавить его записи в защищённый ХАОС?'))return;
+   restored=validateData(raw);
+  }else throw new Error('Неизвестный формат копии');
+  const clean=validateData(restored);
+  const keys=['tasks','entries','projects'];
+  const incoming={};
+  for(const key of keys){
+   const present=new Set(data[key].map(x=>x.id));
+   incoming[key]=clean[key].filter(x=>x&&typeof x==='object'&&typeof x.id==='string'&&typeof x.title==='string'&&!present.has(x.id)).map(x=>({...x}));
+   if(key==='entries')for(const entry of incoming[key]){
+    entry.photos=Array.isArray(entry.photos)?entry.photos.slice(0,PHOTO_LIMIT).filter(x=>x&&typeof x.id==='string'):[];
+   }
+  }
+  const n=incoming.tasks.length+incoming.entries.length+incoming.projects.length;
+  if(!n){notify('Все записи из файла уже есть в ХАОСе ♥');return}
+  if(!confirm(`Добавить ${incoming.entries.length} записей, ${incoming.tasks.length} задач и ${incoming.projects.length} проектов? Текущие данные останутся на месте.`))return;
+  const byId=new Map(sourcePhotos.map(x=>[x.id,x]));
+  const remap=new Map();
+  for(const entry of incoming.entries)for(const photo of entry.photos){
+   if(!remap.has(photo.id)){
+    const item=byId.get(photo.id);
+    if(!item||!oldKey)throw new Error('Не удалось найти фото из старой копии: '+(photo.name||photo.id));
+    const buffer=await decryptPhotoWithKey({version:1,iv:fromBase64(item.iv).buffer,ciphertext:fromBase64(item.ciphertext).buffer},oldKey);
+    const newId=uid();await storePhotoWithKey(newId,'image/jpeg',buffer,activeKey);
+    createdIds.push(newId);remap.set(photo.id,newId);
+   }
+   photo.id=remap.get(photo.id);
+  }
+  const previous=data;
+  data={version:1,tasks:[...data.tasks,...incoming.tasks],entries:[...data.entries,...incoming.entries],projects:[...data.projects,...incoming.projects]};
+  try{await save()}catch(err){data=previous;throw err}
+  createdIds.length=0; // From here these photo files belong to successfully saved records.
+  clearPhotoURLs();go('entries');
+  notify(`Перенесено: ${incoming.entries.length} записей, ${incoming.tasks.length} задач ♥`);
+  if(cloudEnabled){cloudMessage('Новые записи добавлены локально. Сохраняю в облако…');await cloudPush()}
+  createdIds.length=0;
+  return;
+ }catch(err){
+  for(const id of createdIds)await photoDBDelete(id).catch(()=>{});
+  notify('Объединение не выполнено: '+err.message);
+  console.warn('Merge backup failed',err);
+ }finally{$('#mergeFile').value=''}
+}
+
+async function importBackup(file){
+ if(!file)return;
+ try{
+   if(file.size>350*1024*1024)throw new Error('Резервная копия слишком большая');
+   const raw=JSON.parse(await file.text());let restored,oldKey=null,sourcePhotos=[];
+   if(raw?.format==='haos-encrypted-backup-v3'&&raw.vault&&Array.isArray(raw.photos)){
+      const password=prompt('Пароль от резервной копии:');if(password===null)return;
+      const opened=await decryptState(raw.vault,password);restored=opened.data;oldKey=opened.key;sourcePhotos=raw.photos;
+   }else if(raw?.format==='haos-encrypted-backup-v2'&&raw.vault){
+      const password=prompt('Пароль от старой резервной копии:');if(password===null)return;
+      const opened=await decryptState(raw.vault,password);restored=opened.data;
+   }else if(Array.isArray(raw.tasks)&&Array.isArray(raw.entries)&&Array.isArray(raw.projects)){
+      if(!confirm('Это НЕЗАШИФРОВАННАЯ копия. После импорта данные будут зашифрованы. Продолжить?'))return;
+      restored=validateData(raw);
+   }else throw new Error('Неизвестный формат резервной копии');
+   if(!confirm('Восстановление ЗАМЕНИТ текущие записи и фото. Убедись, что у тебя есть их копия. Продолжить?'))return;
+   const clean=blank();
+   for(const key of ['tasks','entries','projects'])clean[key]=restored[key].filter(x=>x&&typeof x==='object'&&typeof x.id==='string'&&typeof x.title==='string').map(x=>{const normalized={...x};for(const k of Object.keys(normalized))if(typeof normalized[k]==='string')normalized[k]=normalized[k].slice(0,k==='body'||k==='detail'||k==='description'?20000:200);if(key==='entries'){
+     if(!['journal','note','idea'].includes(normalized.type))normalized.type='note';
+     normalized.photos=Array.isArray(normalized.photos)?normalized.photos.slice(0,PHOTO_LIMIT).filter(p=>p&&typeof p.id==='string'):[];
+   }return normalized});
+   if(cloudEnabled){cloudEnabled=false;if(cloudUser())localStorage.removeItem(cloudEnabledKey());notify('Синхронизация отключена на время восстановления файла.')}
+   const previousData=data;const createdIds=[];
+   try{
+     // Временные новые ID не затирают фото в существующем сейфе, пока импорт не завершён.
+     const byId=new Map(sourcePhotos.map(x=>[x.id,x]));
+     for(const entry of clean.entries){for(const photo of entry.photos){
+       const oldItem=byId.get(photo.id);if(!oldItem||!oldKey)throw new Error('В копии отсутствует фото '+photo.name);
+       const buffer=await decryptPhotoWithKey({version:1,iv:fromBase64(oldItem.iv).buffer,ciphertext:fromBase64(oldItem.ciphertext).buffer},oldKey);
+       const id=uid();await storePhotoWithKey(id,'image/jpeg',buffer,activeKey);createdIds.push(id);photo.id=id;
+     }}
+     data=clean;await save();
+   }catch(err){data=previousData;for(const id of createdIds)await photoDBDelete(id).catch(console.warn);throw err;}
+   // Старые фото удаляем только ПОСЛЕ успешного сохранения нового зашифрованного списка.
+   for(const old of previousData.entries)for(const p of old.photos||[])photoDBDelete(p.id).catch(console.warn);
+   clearPhotoURLs();go('today');notify('Восстановлено! Фото тоже внутри ХАОСа ♥');
+ }catch(err){console.error('Import error',err);notify('Не удалось восстановить: '+err.message)}
+ finally{$('#importFile').value=''}
+}
+function handleAction(el){const action=el.dataset.action,id=el.dataset.id;if(!action)return;switch(action){case 'add-idea':openForm('idea');break;case 'add-task':openForm('task',null,view==='project'?activeProjectId:null);break;case 'add-entry':chooseType();break;case 'add-project':openForm('project');break;case 'choose':openForm(el.dataset.type);break;case 'toggle-task':toggleTask(id);break;case 'edit-task':openForm('task',id);break;case 'edit-entry':{const e=data.entries.find(x=>x.id===id);if(e)openForm(e.type,id);break}case 'edit-project':openForm('project',id);break;case 'add-project-task':openForm('task',null,id);break;case 'add-project-note':openForm('note',null,id);break;case 'task-filter':taskFilter=el.dataset.filter;render();break;case 'entry-filter':entryFilter=el.dataset.filter;render();break;case 'close-modal':closeModal();break;case 'open-project':activeProjectId=id;go('project');break;case 'projects':go('projects');break;case 'more':go('more');break;case 'settings':go('settings');break;case 'pick-photos':modal.querySelector('#photoFilePicker')?.click();break;case 'remove-photo':removeDraftPhoto(el.dataset.photoId);break;case 'delete':removeRecord(el.dataset.kind,id);break;case 'lock-vault':lockVault();break;case 'cloud-register':cloudAccount('register');break;case 'cloud-login':cloudAccount('login');break;case 'cloud-enable':if(cloudEnabled)cloudPush();else cloudEnable();break;case 'cloud-restore':cloudRestore();break;case 'cloud-logout':cloudLogout();break;case 'export':downloadBackup();break;case 'import':$('#importFile').click();break;case 'merge':$('#mergeFile').click();break;case 'clear-all':if(confirm('Удалить ВСЁ ТОЛЬКО С ЭТОГО ТЕЛЕФОНА? Сначала сделай резервную копию.'))if(confirm('Облачная копия останется отдельно, а автоматическая синхронизация отключится. Продолжить?')){cloudEnabled=false;if(cloudUser())localStorage.removeItem(cloudEnabledKey());data=blank();save().then(()=>photoDBClear()).then(()=>{clearPhotoURLs();go('today');notify('Все данные удалены')}).catch(()=>notify('Не получилось полностью удалить данные'))}break;}}
+document.addEventListener('click',event=>{if(event.target.closest('img.entry-photo')){event.preventDefault();event.stopPropagation();viewPhoto(event.target.dataset.photoId);return}if(event.target.id==='backdrop'){closeModal();return}const actionEl=event.target.closest('[data-action]');if(actionEl){handleAction(actionEl);return}const navEl=event.target.closest('[data-nav]');if(navEl){go(navEl.dataset.nav);return}});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&modal.innerHTML)closeModal();if((event.key==='Enter'||event.key===' ')&&event.target.matches('[role="button"][data-action]')){event.preventDefault();handleAction(event.target)}});
+document.addEventListener('submit',event=>{if(event.target.id==='recordForm')submitForm(event)});
+document.addEventListener('change',event=>{if(event.target.id==='photoFilePicker')addPhotos(event.target.files)});
+$('#addQuick').addEventListener('click',chooseType);
+$('#searchToggle').addEventListener('click',()=>{const panel=$('#searchPanel');panel.classList.toggle('hidden');if(!panel.classList.contains('hidden'))$('#globalSearch').focus();else{query='';$('#globalSearch').value='';render()}});
+$('#clearSearch').addEventListener('click',()=>{query='';$('#globalSearch').value='';$('#searchPanel').classList.add('hidden');render()});
+$('#globalSearch').addEventListener('input',event=>{query=event.target.value;render()});
+$('#importFile').addEventListener('change',event=>importBackup(event.target.files?.[0]));
+$('#mergeFile').addEventListener('change',event=>mergeBackup(event.target.files?.[0]));
+// PWA is installed from Safari; offline support is not yet enabled, so do not register a missing service worker.
+initializeVault();
+})();
+
+</script>
+</body>
+</html>
