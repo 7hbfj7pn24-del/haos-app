@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="haos-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="haos-icon-192.png">
   <link rel="manifest" href="haos.webmanifest">
-  <title>ХАОС · BORDEAUX 2.0 · RELEASE</title>
+  <title>ХАОС · BORDEAUX 2.1 · CLEAN + PUSH</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -407,6 +407,10 @@ body{background:#0c090c}
 .v2-entry-type-actions .ghost-button:focus-visible,.v2-idea-status:focus-visible,.v2-convert-idea:focus-visible{outline:2px solid #e79db6;outline-offset:3px}
 @media(max-width:385px){.v2-entry-type-actions{gap:3px}.v2-entry-type-actions .ghost-button{font-size:12px}.v2-entry-controls button{font-size:11px}}
 
+
+/* iPhone reminder controls */
+.field input[type="datetime-local"]{min-width:0;max-width:100%;width:100%;-webkit-appearance:none}
+@media (max-width:440px){.cloud-actions button{min-width:0;flex-basis:100%}}
 </style>
 </head>
 <body class="is-locked"><div id="v2Splash" class="v2-splash" aria-hidden="true"></div>
@@ -453,10 +457,10 @@ body{background:#0c090c}
 'use strict';
 // Hard-coded sandbox mode. This preview MUST NEVER access production local storage or cloud.
 const IS_PREVIEW=false;
-const STORAGE_KEY=IS_PREVIEW?'haos-bordeaux-release-review-old-data':'chaos-personal-v1';
-const VAULT_KEY=IS_PREVIEW?'haos-bordeaux-release-review-encrypted-vault':'haos-encrypted-vault-v2';
-const BACKUP_STATUS_KEY=IS_PREVIEW?'haos-preview-last-backup':'haos-last-backup-v3';
-const BACKUP_MODIFIED_KEY=IS_PREVIEW?'haos-preview-last-change':'haos-last-change-v3';
+const STORAGE_KEY=IS_PREVIEW?'haos-bordeaux-release-review-old-data':'haos-v2-fresh-old-data';
+const VAULT_KEY=IS_PREVIEW?'haos-bordeaux-release-review-encrypted-vault':'haos-v2-fresh-encrypted-vault-v1';
+const BACKUP_STATUS_KEY=IS_PREVIEW?'haos-preview-last-backup':'haos-v2-fresh-last-backup';
+const BACKUP_MODIFIED_KEY=IS_PREVIEW?'haos-preview-last-change':'haos-v2-fresh-last-change';
 const PHOTO_LIMIT=8;
 let photoDraft=null,photoDraftBusy=false;
 const photoURLCache=new Map();
@@ -488,8 +492,8 @@ async function deriveKey(pass,salt,iterations=KDF_ITERATIONS){const material=awa
 async function encryptState(key,state,salt){const iv=crypto.getRandomValues(new Uint8Array(12));const cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(JSON.stringify(state)));return {version:2,kdf:'PBKDF2-SHA256',iterations:KDF_ITERATIONS,salt:toBase64(salt),iv:toBase64(iv),ciphertext:toBase64(new Uint8Array(cipher))}}
 async function decryptState(vault,pass){if(vault.version!==2||vault.kdf!=='PBKDF2-SHA256'||vault.iterations<100000||vault.iterations>2000000)throw new Error('Неизвестный формат сейфа');const salt=fromBase64(vault.salt);const key=await deriveKey(pass,salt,vault.iterations);const plaintext=await crypto.subtle.decrypt({name:'AES-GCM',iv:fromBase64(vault.iv)},key,fromBase64(vault.ciphertext));const decoded=JSON.parse(new TextDecoder().decode(plaintext));return {key,salt,data:validateData(decoded),sourceVersion:Number(decoded.version)||1}}
 function getVault(){try{const raw=localStorage.getItem(VAULT_KEY);return raw?JSON.parse(raw):null}catch(e){return {corrupted:true}}}
-function save(){if(!activeKey||!vaultSalt)return Promise.reject(new Error('Сейф закрыт'));const snapshot=JSON.parse(JSON.stringify(data));const key=activeKey,salt=vaultSalt;persistQueue=persistQueue.catch(()=>{}).then(async()=>{const encrypted=await encryptState(key,snapshot,salt);localStorage.setItem(VAULT_KEY,JSON.stringify(encrypted));markedAsChanged();cloudSchedule();return true}).catch(err=>{console.error('Save failed',err);notify('Не удалось сохранить! Сделай копию и проверь память телефона.');throw err});return persistQueue}
-function setAuthMode(mode){const create=mode==='create';$('#authTitle').textContent=create?'Создай свой пароль':'С возвращением в ХАОС';$('#authCopy').textContent=create?'Задай длинный личный пароль. Все записи будут зашифрованы на этом устройстве.':'Доступ к дневнику только после расшифровки записей.';$('#authRepeatLabel').classList.toggle('hidden',!create);$('#authRepeat').required=create;$('#authSubmit').textContent=create?'Создать защищённый ХАОС':'Разблокировать';$('#authPassword').setAttribute('minlength',create?'12':'1');$('#authPassword').value='';$('#authRepeat').value='';$('#authError').textContent='';document.body.classList.add('is-locked');$('#authScreen').classList.remove('hidden');}
+function save(){if(!activeKey||!vaultSalt)return Promise.reject(new Error('Сейф закрыт'));const snapshot=JSON.parse(JSON.stringify(data));const key=activeKey,salt=vaultSalt;persistQueue=persistQueue.catch(()=>{}).then(async()=>{const encrypted=await encryptState(key,snapshot,salt);localStorage.setItem(VAULT_KEY,JSON.stringify(encrypted));markedAsChanged();cloudSchedule();pushSchedule();return true}).catch(err=>{console.error('Save failed',err);notify('Не удалось сохранить! Сделай копию и проверь память телефона.');throw err});return persistQueue}
+function setAuthMode(mode){const create=mode==='create';$('#authTitle').textContent=create?'Создай свой пароль':'С возвращением в ХАОС';$('#authCopy').textContent=create?'Новый чистый ХАОС. Тестовые записи остались в старом архиве. Придумай пароль от нового зашифрованного сейфа.':'Доступ к дневнику только после расшифровки записей.';$('#authRepeatLabel').classList.toggle('hidden',!create);$('#authRepeat').required=create;$('#authSubmit').textContent=create?'Создать защищённый ХАОС':'Разблокировать';$('#authPassword').setAttribute('minlength',create?'12':'1');$('#authPassword').value='';$('#authRepeat').value='';$('#authError').textContent='';document.body.classList.add('is-locked');$('#authScreen').classList.remove('hidden');}
 async function initializeVault(){if(!globalThis.crypto?.subtle){setAuthMode('unlock');$('#authCopy').textContent='В этом браузере недоступно шифрование. Открой ХАОС по HTTPS в Safari.';$('#authSubmit').disabled=true;return;}const vault=getVault();setAuthMode(vault?'unlock':'create');if(vault?.corrupted)$('#authError').textContent='Хранилище повреждено. Не удаляй данные. Сделай копию перед восстановлением.'}
 async function unlockWithPass(pass){const vault=getVault();if(vault){const opened=await decryptState(vault,pass);activeKey=opened.key;vaultSalt=opened.salt;data=opened.data;if(opened.sourceVersion<2){
   const oldArchiveKey='haos-bordeaux-v2-archived-v1-encrypted-vault';
@@ -498,7 +502,7 @@ async function unlockWithPass(pass){const vault=getVault();if(vault){const opene
    if(localStorage.getItem(oldArchiveKey)!==JSON.stringify(vault))throw new Error('Не удалось сохранить защищённую копию старого сейфа');
   }
   await save();
- }}else{vaultSalt=crypto.getRandomValues(new Uint8Array(16));activeKey=await deriveKey(pass,vaultSalt);data=load();await save();localStorage.removeItem(STORAGE_KEY);}view='today';query='';$('#globalSearch').value='';$('#searchPanel').classList.add('hidden');$('#authScreen').classList.add('hidden');document.body.classList.remove('is-locked');render();v2PostUnlock();if(cloudEnabled)cloudSchedule();if(navigator.storage?.persist)navigator.storage.persist().catch(()=>{});}
+ }}else{vaultSalt=crypto.getRandomValues(new Uint8Array(16));activeKey=await deriveKey(pass,vaultSalt);data=load();await save();localStorage.removeItem(STORAGE_KEY);}view='today';query='';$('#globalSearch').value='';$('#searchPanel').classList.add('hidden');$('#authScreen').classList.add('hidden');document.body.classList.remove('is-locked');render();v2PostUnlock();if(cloudEnabled)cloudSchedule();pushSchedule();if(navigator.storage?.persist)navigator.storage.persist().catch(()=>{});}
 async function lockVault(){if(document.body.classList.contains('is-locked')||vaultBusy)return;vaultBusy=true;try{await persistQueue}catch(e){};activeKey=null;vaultSalt=null;data=blank();resetPhotoDraft();clearPhotoURLs();main.innerHTML='';modal.innerHTML='';setAuthMode('unlock');vaultBusy=false;}
 $('#authForm').addEventListener('submit',async event=>{event.preventDefault();if(vaultBusy)return;const pass=$('#authPassword').value;const isCreate=!getVault();$('#authError').textContent='';if(isCreate&&(pass.length<12||pass!==$('#authRepeat').value)){ $('#authError').textContent=pass.length<12?'Нужно хотя бы 12 символов. Лучше длинную фразу.':'Пароли не совпадают.';return;}vaultBusy=true;$('#authSubmit').disabled=true;try{await unlockWithPass(pass);}catch(e){activeKey=null;vaultSalt=null;data=blank();$('#authError').textContent=getVault()?.corrupted?'Повреждены данные сейфа.':'Не получилось открыть: неверный пароль или повреждённая копия.';console.warn('Unable to unlock local vault',e)}finally{vaultBusy=false;$('#authSubmit').disabled=false;$('#authPassword').value='';$('#authRepeat').value=''}});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)lockVault()});
@@ -507,7 +511,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)lockVault()
 function openPhotoDB(){
  if(!('indexedDB' in window))return Promise.reject(new Error('Нет доступа к IndexedDB на этом устройстве'));
  if(!photoDatabasePromise){photoDatabasePromise=new Promise((resolve,reject)=>{
-   const request=indexedDB.open(IS_PREVIEW?'haos-bordeaux-release-review-photos':'haos-private-photos-v1',1);
+   const request=indexedDB.open(IS_PREVIEW?'haos-bordeaux-release-review-photos':'haos-v2-fresh-photos-v1',1);
    request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains('photos'))request.result.createObjectStore('photos',{keyPath:'id'})};
    request.onsuccess=()=>resolve(request.result);
    request.onerror=()=>reject(request.error||new Error('Хранилище фотографий недоступно'));
@@ -714,16 +718,16 @@ async function v2Submit(event){event.preventDefault();const f=event.target;const
 const CLOUD_URL='https://pgkjpybqnazceaknflnu.supabase.co';
 const CLOUD_PUBLIC_KEY='sb_publishable_eHy3AW5538dMzLZXVS_EhA_LNYuuzGs';
 const CLOUD_SESSION_KEY=IS_PREVIEW?'haos-bordeaux-release-review-no-session':'haos-cloud-session-v1';
-const CLOUD_BUCKET='haos-encrypted-photos';
+const CLOUD_BUCKET='haos-v2-encrypted-photos';
 const CLOUD_SITE='https://7hbfj7pn24-del.github.io/haos-app/';
 let cloudSession=null,cloudStatus='Облако ещё не подключено',cloudBusy=false;
 let cloudEnabled=false,cloudRev=null,cloudTimer=null,cloudSyncing=false,cloudAgain=false;
 try{cloudSession=JSON.parse(localStorage.getItem(CLOUD_SESSION_KEY)||'null')}catch(_){}
 function cloudUser(){return IS_PREVIEW?null:(cloudSession?.user?.id||null)}
-function cloudRevisionKey(){return 'haos-cloud-revision-'+cloudUser()}
-function cloudEnabledKey(){return 'haos-cloud-enabled-'+cloudUser()}
-function cloudPhotoKey(){return 'haos-cloud-photos-'+cloudUser()}
-function cloudReviewKey(){return 'haos-bordeaux-2-cloud-reviewed-'+cloudUser()}
+function cloudRevisionKey(){return 'haos-v2-cloud-revision-'+cloudUser()}
+function cloudEnabledKey(){return 'haos-v2-cloud-enabled-'+cloudUser()}
+function cloudPhotoKey(){return 'haos-v2-cloud-photos-'+cloudUser()}
+function cloudReviewKey(){return 'haos-v2-fresh-cloud-reviewed-'+cloudUser()}
 function cloudReviewApproved(){return !IS_PREVIEW&&!!cloudUser()&&localStorage.getItem(cloudReviewKey())==='yes'}
 function cloudRefreshLocalState(){cloudRev=cloudUser()?Number(localStorage.getItem(cloudRevisionKey())||0)||null:null;cloudEnabled=cloudReviewApproved()&&localStorage.getItem(cloudEnabledKey())==='yes'}
 cloudRefreshLocalState();
@@ -764,7 +768,7 @@ async function cloudAccount(mode){
    else throw new Error('Вход не выполнен. Проверь почту и пароль.');
  }catch(err){cloudMessage(err.message);notify('Облако: '+err.message)}finally{cloudBusy=false}
 }
-async function cloudGetRow(){const rows=await cloudRequest('/rest/v1/haos_vaults?select=encrypted_vault,revision,updated_at&owner_id=eq.'+encodeURIComponent(cloudUser())+'&limit=1');return rows?.[0]||null}
+async function cloudGetRow(){const rows=await cloudRequest('/rest/v1/haos_vaults_v2?select=encrypted_vault,revision,updated_at&owner_id=eq.'+encodeURIComponent(cloudUser())+'&limit=1');return rows?.[0]||null}
 function cloudPhotoSet(){try{return new Set(JSON.parse(localStorage.getItem(cloudPhotoKey())||'[]'))}catch(_){return new Set()}}
 function cloudSavePhotoSet(ids){localStorage.setItem(cloudPhotoKey(),JSON.stringify([...ids]))}
 async function cloudUploadPhotos(photos){
@@ -796,16 +800,16 @@ async function cloudPush(){
   if(!activeKey||!cloudEnabled)return;
   let next;
   if(initialRev===null){
-   const row=await cloudRequest('/rest/v1/haos_vaults?select=revision',{method:'POST',headers:{Prefer:'return=representation'},json:{owner_id:cloudUser(),encrypted_vault:snapshot,revision:1},allowConflict:true});
+   const row=await cloudRequest('/rest/v1/haos_vaults_v2?select=revision',{method:'POST',headers:{Prefer:'return=representation'},json:{owner_id:cloudUser(),encrypted_vault:snapshot,revision:1},allowConflict:true});
    if(row?.conflict||!row?.[0])throw new Error('В облаке уже есть данные. Автозагрузка остановлена. Используй восстановление.');
    next=Number(row[0].revision);
   }else{
-   const row=await cloudRequest('/rest/v1/haos_vaults?owner_id=eq.'+encodeURIComponent(cloudUser())+'&revision=eq.'+initialRev+'&select=revision',{method:'PATCH',headers:{Prefer:'return=representation'},json:{encrypted_vault:snapshot,revision:initialRev+1,updated_at:new Date().toISOString()}});
+   const row=await cloudRequest('/rest/v1/haos_vaults_v2?owner_id=eq.'+encodeURIComponent(cloudUser())+'&revision=eq.'+initialRev+'&select=revision',{method:'PATCH',headers:{Prefer:'return=representation'},json:{encrypted_vault:snapshot,revision:initialRev+1,updated_at:new Date().toISOString()}});
    if(!row?.length)throw new Error('Облако изменилось на другом устройстве. Синхронизация остановлена, чтобы ничего не затереть.');
    next=Number(row[0].revision);
   }
   cloudRev=next;localStorage.setItem(cloudRevisionKey(),String(next));
-  localStorage.setItem('haos-cloud-last-sync-'+cloudUser(),new Date().toISOString());
+  localStorage.setItem('haos-v2-cloud-last-sync-'+cloudUser(),new Date().toISOString());
   cloudMessage('Зашифрованная копия сохранена в облаке ✓');
  }catch(err){
   if(/Облако изменилось|уже есть данные/.test(err.message)){cloudEnabled=false;localStorage.removeItem(cloudEnabledKey())}
@@ -859,7 +863,7 @@ async function cloudEnable(){
    localStorage.setItem(cloudReviewKey(),'yes');
    localStorage.setItem(cloudEnabledKey(),'yes');
    cloudEnabled=true;
-   localStorage.setItem('haos-cloud-last-sync-'+cloudUser(),latest.updated_at||new Date().toISOString());
+   localStorage.setItem('haos-v2-cloud-last-sync-'+cloudUser(),latest.updated_at||new Date().toISOString());
    cloudMessage('Сверка пройдена ✓ Содержимое одинаковое. Синхронизация включена без перезаписи.');
    return;
   }
@@ -914,7 +918,8 @@ async function cloudRestore(){
   render();cloudSchedule();
  }catch(err){for(const id of created)await photoDBDelete(id).catch(()=>{});cloudMessage('Восстановление не выполнено: '+err.message)}finally{cloudBusy=false}
 }
-function cloudLogout(){
+async function cloudLogout(){
+ if(pushIsEnabled())await pushDisable(); // Unsubscribe this device before losing the account session.
  if(cloudUser())localStorage.removeItem(cloudReviewKey());
  cloudSession=null;cloudEnabled=false;cloudRev=null;clearTimeout(cloudTimer);
  localStorage.removeItem(CLOUD_SESSION_KEY);
@@ -923,7 +928,7 @@ function cloudLogout(){
 function cloudUI(){
  if(IS_PREVIEW)return `<div class="card"><h3 class="card-title">Безопасная тестовая версия</h3><p class="card-body">Облако отключено, тестовый сейф хранится отдельно от основного. Здесь можно пробовать создание разделов, календарь и челленджи без риска для твоих настоящих записей.</p></div>`;
  const signed=!!cloudUser();
- const last=signed?localStorage.getItem('haos-cloud-last-sync-'+cloudUser()):null;
+ const last=signed?localStorage.getItem('haos-v2-cloud-last-sync-'+cloudUser()):null;
  return `<div class="section-header"><h2>☁️ Личный облачный аккаунт</h2></div><div class="card cloud-card"><h3 class="card-title">${signed?'Ты в облаке':'Войти или зарегистрироваться'}</h3>
  <p class="card-body">${signed?'Аккаунт: '+escape(cloudSession.user.email||'Личный'):'Почта и пароль аккаунта Supabase. Это отдельный пароль от сейфа ХАОС.'}</p>
  <p class="cloud-status">${escape(cloudStatus)}</p>
@@ -932,6 +937,62 @@ function cloudUI(){
  :`<div class="cloud-fields"><input id="cloudEmail" type="email" autocomplete="email" placeholder="Твоя почта" aria-label="Почта"><input id="cloudPassword" type="password" autocomplete="new-password" placeholder="Пароль аккаунта" aria-label="Пароль аккаунта" minlength="8"></div><div class="cloud-actions"><button class="primary-button" data-action="cloud-login">Войти</button><button class="soft-button" data-action="cloud-register">Создать аккаунт</button></div>`}
  <p class="card-body" style="margin-top:13px">Облако хранит <strong>зашифрованные</strong> записи и фото. Если на другом телефоне уже есть другой сейф, приложение не перезапишет его молча. Сохраняй файл .haos отдельно на всякий случай.</p></div>`
 }
+
+const PUSH_URL=CLOUD_URL+'/functions/v1/haos-push';
+let pushSyncTimer=null;
+function pushEnabledKey(){return 'haos-v2-push-enabled-'+(cloudUser()||'guest')}
+function pushIsEnabled(){return !IS_PREVIEW&&!!cloudUser()&&localStorage.getItem(pushEnabledKey())==='yes'}
+function pushStandalone(){return !!(window.navigator.standalone||window.matchMedia('(display-mode: standalone)').matches)}
+function notificationsUI(){
+ const supported=('serviceWorker' in navigator)&&('PushManager' in window)&&('Notification' in window);
+ const enabled=pushIsEnabled()&&typeof Notification!=='undefined'&&Notification.permission==='granted';
+ const state=!supported?'Не поддерживается в этом браузере':!pushStandalone()?'Добавь ХАОС на экран «Домой» и открой через его иконку':!cloudUser()?'Сначала войди в облачный аккаунт':Notification.permission==='denied'?'Уведомления запрещены в настройках iPhone':enabled?'Уведомления включены':'Уведомления ещё не включены';
+ return `<div class="section-header"><h2>🔔 Уведомления iPhone</h2></div><div class="card"><h3 class="card-title">Задачи и напоминания</h3><p class="card-body">Важные задачи: в 09:00 в назначенный день. События с временем: за 30 минут. Для отдельной задачи можно выбрать собственное время.</p><p class="cloud-status">${escape(state)}</p><p class="card-body">На сервер передаются только время и тип напоминания, <strong>без названия и текста</strong> твоих записей. Уведомления приходят даже с закрытым ХАОСом, когда Push разрешён.</p><div class="cloud-actions"><button type="button" class="primary-button" data-action="haos-push-enable">${enabled?'Повторно проверить подписку':'Разрешить уведомления'}</button>${enabled?'<button type="button" class="soft-button" data-action="haos-push-test">Отправить пробное</button><button type="button" class="soft-button" data-action="haos-push-disable">Отключить</button>':''}</div></div>`;
+}
+function pushUrlKey(key){const binary=atob(key.replace(/-/g,'+').replace(/_/g,'/').padEnd(Math.ceil(key.length/4)*4,'='));return Uint8Array.from(binary,c=>c.charCodeAt(0))}
+async function pushApi(payload){const token=await cloudToken();const r=await fetch(PUSH_URL,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token,apikey:CLOUD_PUBLIC_KEY},body:JSON.stringify(payload)});const response=await r.json().catch(()=>({}));if(!r.ok)throw new Error(response.error||'Не удалось подключить уведомления');return response}
+function pushReminders(){
+ const now=Date.now(),out=[];
+ const append=(key,kind,date)=>{if(date&&Number.isFinite(date.getTime())&&date.getTime()>now+15000&&date.getTime()<now+370*86400000)out.push({key,kind,at:date.toISOString()})};
+ for(const t of data.tasks){if(t.done)continue;
+   if(t.reminderAt){const at=new Date(t.reminderAt);append('custom:'+String(t.id).replace(/[^a-zA-Z0-9_-]/g,''),'custom',at)}
+   else if(t.priority==='high'&&/^\d{4}-\d{2}-\d{2}$/.test(t.due||''))append('task:'+String(t.id).replace(/[^a-zA-Z0-9_-]/g,''),'task',new Date(t.due+'T09:00:00'));
+ }
+ for(const e of data.events||[]){if(e.done||!e.at||!e.date)continue;const at=new Date(e.date+'T'+e.at);if(Number.isFinite(at.getTime()))append('event:'+String(e.id).replace(/[^a-zA-Z0-9_-]/g,''),'event',new Date(at.getTime()-30*60000))}
+ return out.slice(0,300);
+}
+async function pushSyncNow(){if(!pushIsEnabled()||!cloudUser())return;const result=await pushApi({action:'sync',reminders:pushReminders()});return result}
+function pushSchedule(){if(!pushIsEnabled()||!activeKey)return;clearTimeout(pushSyncTimer);pushSyncTimer=setTimeout(()=>pushSyncNow().catch(err=>console.warn('Notification schedule:',err.message)),1600)}
+async function pushEnable(){
+ if(IS_PREVIEW)return notify('В тестовом ХАОСе уведомления отключены');
+ if(!cloudUser())return notify('Сначала войди в облачный аккаунт в Настройках');
+ if(!pushStandalone())return notify('Открой ХАОС через иконку на экране Домой');
+ if(!('serviceWorker' in navigator)||!('PushManager' in window)||!('Notification' in window))return notify('Браузер не поддерживает Push');
+ try{
+  // Request must be initiated as part of a direct tap for iOS Safari.
+  const permission=await Notification.requestPermission();
+  if(permission!=='granted')throw new Error('Разрешение на уведомления не получено');
+  const reg=await navigator.serviceWorker.register('./haos-sw.js',{scope:'./'});
+  const keyRes=await fetch(PUSH_URL,{cache:'no-store'});
+  const keyData=await keyRes.json();if(!keyRes.ok||!keyData.publicKey)throw new Error('Сервис уведомлений пока не готов');
+  const existing=await reg.pushManager.getSubscription();
+  const sub=existing||await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:pushUrlKey(keyData.publicKey)});
+  await pushApi({action:'subscribe',subscription:sub.toJSON()});
+  localStorage.setItem(pushEnabledKey(),'yes');
+  await pushSyncNow();
+  render();notify('Уведомления iPhone включены ♥');
+ }catch(e){notify('Уведомления: '+e.message)}
+}
+async function pushDisable(){
+ try{if(!pushIsEnabled())return;
+  const reg=await navigator.serviceWorker.getRegistration('./');
+  const sub=await reg?.pushManager?.getSubscription();
+  if(sub){await pushApi({action:'unsubscribe',endpoint:sub.endpoint});await sub.unsubscribe()}
+  localStorage.removeItem(pushEnabledKey());render();notify('Уведомления выключены');
+ }catch(e){notify('Не удалось отключить: '+e.message)}
+}
+async function pushTest(){try{if(!pushIsEnabled())return notify('Сначала включи уведомления');await pushApi({action:'test'});notify('Пробное уведомление отправлено ♥')}catch(e){notify('Проверка: '+e.message)}}
+
 window.addEventListener('online',()=>cloudSchedule());
 
 function renderSettings(){
@@ -940,6 +1001,7 @@ function renderSettings(){
  const count=data.entries.reduce((n,e)=>n+(e.photos||[]).length,0);
  return `<button class="ghost-button" data-action="more">‹ Назад</button>${pageHead('НАСТРОЙКИ','Твои данные.','Никаких подписок. Только личный зашифрованный сейф.')}
  ${cloudUI()}
+ ${notificationsUI()}
  <div class="section-header"><h2>🍷 Оформление</h2></div><div class="card"><h3 class="card-title">Свои картинки</h3><p class="card-body">Меняй логотип внутри ХАОСа и приветственный экран. Для обложек разделов открой нужное пространство.</p><button class="primary-button v2-wide" data-action="v2-theme">Изменить оформление</button></div>
  <div class="section-header"><h2>🔐 Защита от потери</h2></div>${backupNotice()}
  <div class="card"><h3 class="card-title">Сохранить всё: записи + фото</h3><p class="card-body">Создаёт один зашифрованный файл. В меню iPhone выбери «Сохранить в Файлы» → <strong>iCloud Drive</strong>. Копия не появится в облаке автоматически.</p>
@@ -970,7 +1032,7 @@ function formField(name,label,value,placeholder='',required=false){return `<labe
 function textareaField(name,label,value,placeholder){return `<label class="field"><span class="field-label">${escape(label)}</span><textarea name="${name}" placeholder="${escape(placeholder)}" maxlength="20000">${escape(value||'')}</textarea></label>`}
 function projectSelect(selected){return `<label class="field"><span class="field-label">Пространство (необязательно)</span><select name="projectId">${projectOptions(selected)}</select></label>`}
 function openForm(kind,id=null,preselectedProject=null){const collection=kind==='task'?'tasks':kind==='project'?'projects':'entries';const existing=id?data[collection].find(x=>x.id===id):null;const isEdit=!!existing;resetPhotoDraft();if(collection==='entries')photoDraft={existing:Array.isArray(existing?.photos)?existing.photos.map(p=>({...p})):[],added:[]};let fields='';const title=isEdit?'Изменить '+(kind==='task'?'задачу':kind==='project'?'проект':'запись'):({task:'Новая задача',journal:'Мой дневник',note:'Новая заметка',idea:'Новая идея',project:'Новое пространство'}[kind]);
-if(kind==='task')fields=formField('title','Что сделать?',existing?.title,'Например: разобраться с планами',true)+textareaField('detail','Подробности',existing?.detail,'Любые детали, ссылки, мысли…')+`<div class="field-grid"><label class="field"><span class="field-label">Когда</span><input type="date" name="due" value="${escape(existing?.due||'')}"></label><label class="field"><span class="field-label">Важность</span><select name="priority"><option value="normal" ${existing?.priority!=='high'?'selected':''}>Обычная</option><option value="high" ${existing?.priority==='high'?'selected':''}>Важная</option></select></label></div>`+projectSelect(existing?.projectId??preselectedProject);
+if(kind==='task')fields=formField('title','Что сделать?',existing?.title,'Например: разобраться с планами',true)+textareaField('detail','Подробности',existing?.detail,'Любые детали, ссылки, мысли…')+`<div class="field-grid"><label class="field"><span class="field-label">Когда</span><input type="date" name="due" value="${escape(existing?.due||'')}"></label><label class="field"><span class="field-label">Важность</span><select name="priority"><option value="normal" ${existing?.priority!=='high'?'selected':''}>Обычная</option><option value="high" ${existing?.priority==='high'?'selected':''}>Важная</option></select></label></div>`+`<label class="field"><span class="field-label">Напомнить в конкретное время (необязательно)</span><input type="datetime-local" name="reminderAt" value="${escape(existing?.reminderAt||'')}"><small style="color:var(--muted);display:block;margin-top:7px;line-height:1.5">Для важных задач без своего времени ХАОС напомнит в 09:00 в день выполнения, если уведомления включены.</small></label>`+projectSelect(existing?.projectId??preselectedProject);
 else if(kind==='project')fields=formField('title','Название пространства',existing?.title,'Например: мои планы',true)+textareaField('description','Описание',existing?.description,'Что здесь будет жить?');
 else fields=formField('title',kind==='journal'?'Название (необязательно)':'Название',existing?.title,kind==='journal'?'Например: странный день':'Дай мысли название',kind!=='journal')+textareaField('body',kind==='journal'?'Что сегодня произошло?':'Текст',existing?.body,kind==='journal'?'Рассказывай. Здесь можно быть собой.':'Пиши всё, что хочется…')+(kind==='note'||kind==='idea'?`<label class="field"><span class="field-label">Тип записи</span><select name="entryType"><option value="note" ${kind==='note'?'selected':''}>Заметка</option><option value="idea" ${kind==='idea'?'selected':''}>Идея (с отметкой реализации)</option></select></label>`:'')+(kind==='journal'?`<label class="field"><span class="field-label">Настроение (необязательно)</span><select name="mood"><option value="">Не выбрано</option>${moods.map(([emoji,label])=>`<option value="${emoji+' '+label}" ${existing?.mood===emoji+' '+label?'selected':''}>${emoji} ${label}</option>`).join('')}</select></label>`:'')+projectSelect(existing?.projectId??preselectedProject);
 modalBase(title,`<form id="recordForm" data-kind="${kind}" data-id="${escape(id||'')}">${fields}${collection==='entries'?`<div id="photoPickerSlot">${photoPickerMarkup()}</div>`:''}<div class="form-actions">${isEdit?`<button type="button" class="danger-button" data-action="delete" data-kind="${kind}" data-id="${escape(id)}">Удалить</button>`:'<span></span>'}<button class="primary-button" type="submit">${isEdit?'Сохранить изменения':'Сохранить'}</button></div></form>`);if(collection==='entries')hydratePhotos(modal);
@@ -984,7 +1046,7 @@ async function submitForm(event){
  const collection=kind==='task'?'tasks':kind==='project'?'projects':'entries';
  const actualKind=(kind==='idea'||kind==='note')&&(fields.entryType==='idea'||fields.entryType==='note')?fields.entryType:kind;
  const existing=data[collection].find(x=>x.id===id);const timestamp=time();let record;
- if(kind==='task')record={id:existing?.id||uid(),title,detail:String(fields.detail||'').trim(),due:fields.due||'',priority:fields.priority==='high'?'high':'normal',projectId:fields.projectId||'',done:existing?.done||false,createdAt:existing?.createdAt||timestamp,updatedAt:timestamp};
+ if(kind==='task')record={id:existing?.id||uid(),title,detail:String(fields.detail||'').trim(),due:fields.due||'',priority:fields.priority==='high'?'high':'normal',reminderAt:String(fields.reminderAt||'').trim(),projectId:fields.projectId||'',done:existing?.done||false,createdAt:existing?.createdAt||timestamp,updatedAt:timestamp};
  else if(kind==='project')record={id:existing?.id||uid(),title,description:String(fields.description||'').trim(),icon:existing?.icon||'◈',color:existing?.color||'#94304c',coverPhoto:existing?.coverPhoto||null,createdAt:existing?.createdAt||timestamp,updatedAt:timestamp};
  else record={id:existing?.id||uid(),type:actualKind,title:title||(kind==='journal'?'Запись за '+readableDate(formatToday()):'Без названия'),body,mood:kind==='journal'?fields.mood||'':'',projectId:fields.projectId||'',photos,createdAt:existing?.createdAt||timestamp,updatedAt:timestamp,...(actualKind==='idea'?{realized:existing?.realized||false}:{})};
  const button=form.querySelector('[type="submit"]');if(button){button.disabled=true;button.textContent='Сохраняю…'}
@@ -1088,7 +1150,7 @@ async function importBackup(file){
   clearPhotoURLs();go('today');notify('Резервная копия восстановлена ♥');
  }catch(e){for(const id of created)await photoDBDelete(id).catch(()=>{});notify('Восстановление не выполнено: '+e.message)}finally{document.getElementById('importFile').value=''}
 }
-function handleAction(el){const action=el.dataset.action,id=el.dataset.id;if(!action)return;if(action.startsWith('v2-')){v2Action(el).catch(e=>notify('Не удалось сохранить: '+e.message));return;}switch(action){case 'add-idea':openForm('idea');break;case 'add-task':openForm('task',null,view==='project'?activeProjectId:null);break;case 'add-entry':chooseType();break;case 'add-project':openForm('project');break;case 'choose':openForm(el.dataset.type);break;case 'toggle-task':toggleTask(id);break;case 'toggle-idea-status':toggleIdeaStatus(id);break;case 'convert-note-to-idea':convertNoteToIdea(id);break;case 'edit-task':openForm('task',id);break;case 'edit-entry':{const e=data.entries.find(x=>x.id===id);if(e)openForm(e.type,id);break}case 'edit-project':openForm('project',id);break;case 'add-project-task':openForm('task',null,id);break;case 'add-project-note':openForm('note',null,id);break;case 'add-project-idea':openForm('idea',null,id);break;case 'task-filter':taskFilter=el.dataset.filter;render();break;case 'entry-filter':entryFilter=el.dataset.filter;render();break;case 'close-modal':closeModal();break;case 'open-project':activeProjectId=id;go('project');break;case 'projects':go('spaces');break;case 'more':go('more');break;case 'settings':go('settings');break;case 'pick-photos':modal.querySelector('#photoFilePicker')?.click();break;case 'remove-photo':removeDraftPhoto(el.dataset.photoId);break;case 'delete':removeRecord(el.dataset.kind,id);break;case 'lock-vault':lockVault();break;case 'cloud-register':cloudAccount('register');break;case 'cloud-login':cloudAccount('login');break;case 'cloud-enable':if(cloudEnabled)cloudPush();else cloudEnable();break;case 'cloud-restore':cloudRestore();break;case 'cloud-logout':cloudLogout();break;case 'export':downloadBackup();break;case 'import':$('#importFile').click();break;case 'merge':$('#mergeFile').click();break;case 'clear-all':if(confirm('Удалить ВСЁ ТОЛЬКО С ЭТОГО ТЕЛЕФОНА? Сначала сделай резервную копию.'))if(confirm('Облачная копия останется отдельно, а автоматическая синхронизация отключится. Продолжить?')){cloudEnabled=false;if(cloudUser())localStorage.removeItem(cloudEnabledKey());data=blank();save().then(()=>photoDBClear()).then(()=>{clearPhotoURLs();go('today');notify('Все данные удалены')}).catch(()=>notify('Не получилось полностью удалить данные'))}break;}}
+function handleAction(el){const action=el.dataset.action,id=el.dataset.id;if(!action)return;if(action.startsWith('v2-')){v2Action(el).catch(e=>notify('Не удалось сохранить: '+e.message));return;}switch(action){case 'add-idea':openForm('idea');break;case 'add-task':openForm('task',null,view==='project'?activeProjectId:null);break;case 'add-entry':chooseType();break;case 'add-project':openForm('project');break;case 'choose':openForm(el.dataset.type);break;case 'toggle-task':toggleTask(id);break;case 'toggle-idea-status':toggleIdeaStatus(id);break;case 'convert-note-to-idea':convertNoteToIdea(id);break;case 'edit-task':openForm('task',id);break;case 'edit-entry':{const e=data.entries.find(x=>x.id===id);if(e)openForm(e.type,id);break}case 'edit-project':openForm('project',id);break;case 'add-project-task':openForm('task',null,id);break;case 'add-project-note':openForm('note',null,id);break;case 'add-project-idea':openForm('idea',null,id);break;case 'task-filter':taskFilter=el.dataset.filter;render();break;case 'entry-filter':entryFilter=el.dataset.filter;render();break;case 'close-modal':closeModal();break;case 'open-project':activeProjectId=id;go('project');break;case 'projects':go('spaces');break;case 'more':go('more');break;case 'settings':go('settings');break;case 'pick-photos':modal.querySelector('#photoFilePicker')?.click();break;case 'remove-photo':removeDraftPhoto(el.dataset.photoId);break;case 'delete':removeRecord(el.dataset.kind,id);break;case 'haos-push-enable':pushEnable();break;case 'haos-push-disable':pushDisable();break;case 'haos-push-test':pushTest();break;case 'lock-vault':lockVault();break;case 'cloud-register':cloudAccount('register');break;case 'cloud-login':cloudAccount('login');break;case 'cloud-enable':if(cloudEnabled)cloudPush();else cloudEnable();break;case 'cloud-restore':cloudRestore();break;case 'cloud-logout':cloudLogout();break;case 'export':downloadBackup();break;case 'import':$('#importFile').click();break;case 'merge':$('#mergeFile').click();break;case 'clear-all':if(confirm('Удалить ВСЁ ТОЛЬКО С ЭТОГО ТЕЛЕФОНА? Сначала сделай резервную копию.'))if(confirm('Облачная копия останется отдельно, а автоматическая синхронизация отключится. Продолжить?')){cloudEnabled=false;if(cloudUser())localStorage.removeItem(cloudEnabledKey());data=blank();save().then(()=>photoDBClear()).then(()=>{clearPhotoURLs();go('today');notify('Все данные удалены')}).catch(()=>notify('Не получилось полностью удалить данные'))}break;}}
 document.addEventListener('click',event=>{if(event.target.closest('img.entry-photo')){event.preventDefault();event.stopPropagation();viewPhoto(event.target.dataset.photoId);return}if(event.target.id==='backdrop'){closeModal();return}const actionEl=event.target.closest('[data-action]');if(actionEl){handleAction(actionEl);return}const navEl=event.target.closest('[data-nav]');if(navEl){go(navEl.dataset.nav);return}});
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&modal.innerHTML)closeModal();if((event.key==='Enter'||event.key===' ')&&event.target.matches('[role="button"][data-action]')){event.preventDefault();handleAction(event.target)}});
 document.addEventListener('submit',event=>{if(event.target.id==='recordForm')submitForm(event);else if(event.target.id==='v2ChallengeForm'||event.target.id==='v2EventForm')v2Submit(event).catch(e=>notify(e.message))});
@@ -1100,7 +1162,8 @@ $('#clearSearch').addEventListener('click',()=>{query='';$('#globalSearch').valu
 $('#globalSearch').addEventListener('input',event=>{query=event.target.value;render()});
 $('#importFile').addEventListener('change',event=>importBackup(event.target.files?.[0]));
 $('#mergeFile').addEventListener('change',event=>mergeBackup(event.target.files?.[0]));
-// PWA is installed from Safari; offline support is not yet enabled, so do not register a missing service worker.
+// Push-capable PWA worker: deliberately does not cache HTML or encrypted data.
+if(!IS_PREVIEW&&'serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./haos-sw.js',{scope:'./'}).catch(err=>console.warn('HAOS worker:',err.message)))}
 initializeVault();
 })();
 
